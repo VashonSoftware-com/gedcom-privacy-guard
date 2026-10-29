@@ -93,7 +93,7 @@ categories:
       - mental hospital
     exceptions:
       - Great Depression
-      - economic depression
+      - economic depression*
 
   substance_use:
     description: Alcohol and drug addiction.
@@ -126,8 +126,9 @@ categories:
       - jailed
     exceptions:
       - prisoner of war
-      - prison camp
-      - POW camp
+      - prisoners of war
+      - prison camp*
+      - POW camp*
 
   unverified_claims:
     description: Rumor and family lore presented as fact.

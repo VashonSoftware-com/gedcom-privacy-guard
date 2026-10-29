@@ -58,6 +58,7 @@ TEXTS = [
     "She had a nervous\nbreakdown in 1931 and was institutionalized.",
     "Alcoholism, an alcoholic father, overdosed twice, went to rehab and a rehabilitation center.",
     "A prisoner of war, held in a prison camp; later sent to prison and jailed.",
+    "WWII prison camps and POW camps held prisoners of war; two economic depressions.",
     "SSN 123-45-6789; also 000-12-3456 is not valid. Phone (206) 555-0142, mail joe.doe@example.com",
     r"Photo at C:\Users\joe\Pictures\x.jpg and \\server\share\ and /Users/joe/a and file:///tmp/x",
     "Private: [[Ask May first]] and {RootsMagic private} text",

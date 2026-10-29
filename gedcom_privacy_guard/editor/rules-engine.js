@@ -345,7 +345,8 @@
   }
 
   function phraseRegex(phrase) {
-    return new RegExp(termRegex({ text: phrase, mode: "word" }), "giu");
+    // Exceptions take the same * syntax as terms ("prison camp*").
+    return new RegExp(termRegex(parseTerm(phrase)), "giu");
   }
 
   function compilePatterns(patterns) {

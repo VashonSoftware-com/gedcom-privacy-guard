@@ -146,8 +146,7 @@ beta (see "Going public") → real exports from other programs (at least
 RootsMagic, Gramps and Ancestry, made up per the recipe in
 help-wanted.md), sent in through the issue templates → the 15-minute
 exit test with someone new → bump to 1.0.0 and release the CHANGELOG.
-Before the first PyPI release, make the README's image and doc links
-absolute GitHub URLs so they work on PyPI.
+README links are absolute, so they work on PyPI (29 Oct 2026).
 
 ## P0 — Before the repo goes public
 
@@ -245,9 +244,8 @@ Detection (the differentiator):
 - [x] PII patterns: SSNs, phone numbers, emails, street addresses.
 - [x] Whole-word matching and exceptions, so "the Great Depression" stops
       matching `depression`.
-- [ ] Plural exceptions: "WWII prison camps" still flags `prison`, since
-      the `prison camp` exception is whole-word (found 29 Oct 2026). Make
-      it `prison camp*` (and check the other exceptions), with a test.
+- [x] Plural exceptions: exceptions take the term `*` syntax, so
+      `prison camp*` covers "WWII prison camps" (29 Oct 2026).
 
 Adjustable rules (so families can set their own line):
 

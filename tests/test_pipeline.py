@@ -185,6 +185,13 @@ def test_great_depression_is_not_flagged():
     assert _scanner().scan("She suffered from depression.") != []
 
 
+def test_exceptions_take_the_term_syntax():
+    # "prison camp*" covers the plural; a whole-word exception didn't.
+    assert _scanner().scan("He wrote home from the WWII prison camps.") == []
+    assert _scanner().scan("Two POW camps held prisoners of war.") == []
+    assert [f.matched_term for f in _scanner().scan("Later he went to prison.")] == ["prison"]
+
+
 def test_whole_word_matching():
     s = _scanner()
     assert s.scan("Veterans Assn. of Ohio") == []  # 'ssn' inside a word

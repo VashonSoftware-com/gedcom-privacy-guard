@@ -64,7 +64,8 @@ Per category:
 
 Terms match whole words. End a term with `*` to match any word starting
 with it (`alcoholi*`), or wrap it in `*` to match anywhere (`*ssn*`).
-See [how-it-works.md](how-it-works.md).
+Exceptions take the same syntax, so `prison camp*` also covers
+"prison camps". See [how-it-works.md](how-it-works.md).
 
 ## Checking a file
 

@@ -76,7 +76,7 @@ globalThis.GPG_BUILTIN_RULES = {
    ],
    "exceptions": [
     "Great Depression",
-    "economic depression"
+    "economic depression*"
    ]
   },
   "substance_use": {
@@ -112,8 +112,9 @@ globalThis.GPG_BUILTIN_RULES = {
    ],
    "exceptions": [
     "prisoner of war",
-    "prison camp",
-    "POW camp"
+    "prisoners of war",
+    "prison camp*",
+    "POW camp*"
    ]
   },
   "unverified_claims": {

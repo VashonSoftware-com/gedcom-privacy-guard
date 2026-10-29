@@ -102,7 +102,8 @@ class _TermMatcher:
 
 
 def _phrase_regex(phrase: str) -> re.Pattern:
-    return re.compile(term_regex(Term(phrase, "word")), re.IGNORECASE)
+    # Exceptions take the same * syntax as terms ("prison camp*").
+    return re.compile(term_regex(Term.parse(phrase)), re.IGNORECASE)
 
 
 def make_snippet(text: str, start: int, end: int) -> tuple[str, int]:

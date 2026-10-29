@@ -97,6 +97,10 @@ so the tags for 0.1.0 to 0.3.1 exist only in this file.
 
 ### Fixed
 
+- Exceptions take the same `*` syntax as terms. The built-in ones now
+  cover plurals: "WWII prison camps", "POW camps", "prisoners of war"
+  and "economic depressions" are no longer flagged.
+- README links are absolute GitHub URLs, so they work on PyPI.
 - `redact` checks that every report row points at the same text in
   this GEDCOM, and stops with no output if not, instead of overwriting
   the wrong lines.

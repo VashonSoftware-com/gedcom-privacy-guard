@@ -147,8 +147,8 @@ RootsMagic, Gramps and Ancestry, made up per the recipe in
 help-wanted.md), sent in through the issue templates → the 15-minute
 exit test with someone new → bump to 1.0.0 and release the CHANGELOG.
 README links are absolute, so they work on PyPI (29 Oct 2026).
-`v0.4.0b1` is tagged and built; the PyPI publish job waits for John to
-add the trusted publisher on PyPI and approve it (29 Oct 2026).
+`v0.4.0b1` is on PyPI via trusted publishing (29 Oct 2026); next is
+announcing it to testers.
 
 ## P0 — Before the repo goes public
 
@@ -197,8 +197,8 @@ a private repo on the free plan) → confirm 2FA is required for the org
 as required reviewer) → on PyPI, add a pending trusted publisher
 (owner `VashonSoftware-com`, repo `gedcom-privacy-guard`, workflow
 `release.yml`, environment `pypi`) → tag the beta and publish it to
-PyPI → announce to testers. Done through the tag, and the `pypi`
-environment (John as reviewer, `v*` tags only) exists (29 Oct 2026).
+PyPI → announce to testers. Done through PyPI; the `pypi`
+environment has John as reviewer and allows `v*` tags only (29 Oct 2026).
 
 ## P1 — 1.0
 

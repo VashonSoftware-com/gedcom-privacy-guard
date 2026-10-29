@@ -1,0 +1,39 @@
+# Web page
+
+The browser version of GEDCOM Privacy Guard, for people who don't use a
+terminal. It runs the same Python package as the command line, inside
+the browser with [Pyodide](https://pyodide.org) (see
+[ADR-010](../docs/adr/010-web-app-runs-python-engine-in-pyodide.md)).
+The user's file stays on their computer: the page only talks to its own
+site, and its Content-Security-Policy (`public/_headers`) enforces that.
+
+## Develop
+
+Needs Node 24+ and [uv](https://docs.astral.sh/uv/).
+
+```sh
+cd web
+npm ci
+npm run dev       # stages the Python engine, then serves with hot reload
+npm run build     # stages, type-checks and builds to dist/
+npx vite preview  # serves dist/ with the production headers
+```
+
+`npm run stage` (part of `dev` and `build`) fills `public/pyodide/`:
+the Pyodide runtime, PyYAML, the openpyxl wheels pinned in `../uv.lock`,
+and a wheel built from this checkout. Downloads are checked against
+their sha256. After changing the Python package, run it again.
+
+## Layout
+
+- `src/engine/worker.ts`: loads Pyodide and calls
+  `gedcom_privacy_guard/web.py` off the main thread.
+- `src/engine/protocol.ts`: messages between the page and the worker.
+- `src/App.tsx`: the three steps (choose file, decide per note, save).
+- `reference/`: the original JSX proof of concept, kept as a design
+  reference only.
+
+## Deploy
+
+Cloudflare Pages, root directory `web`, build command `npm run build`,
+output `dist`, at `gedcom.vashonsoftware.com`.

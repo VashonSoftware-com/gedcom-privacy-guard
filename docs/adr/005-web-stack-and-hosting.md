@@ -1,6 +1,6 @@
 # ADR-005: Web track stack — React + TypeScript + Vite, deployed to Cloudflare Pages from GitHub
 
-**Status:** Accepted
+**Status:** Accepted; action item 2 (port the engine) superseded by [ADR-010](010-web-app-runs-python-engine-in-pyodide.md)
 **Date:** 2026-07-18
 **Deciders:** Project owner
 

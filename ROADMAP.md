@@ -147,8 +147,13 @@ RootsMagic, Gramps and Ancestry, made up per the recipe in
 help-wanted.md), sent in through the issue templates → the 15-minute
 exit test with someone new → bump to 1.0.0 and release the CHANGELOG.
 README links are absolute, so they work on PyPI (29 Oct 2026).
-`v0.4.0b1` is on PyPI via trusted publishing (29 Oct 2026); next is
-announcing it to testers.
+`v0.4.0b1` is on PyPI via trusted publishing (29 Oct 2026).
+Testers can't use a terminal, so the web version moved ahead of the
+announcement (John, 29 Oct 2026; ADR-010): it runs the Python engine
+in the browser with Pyodide and works end to end locally, including a
+192k-person export (~95 s). Next: deploy it to
+`gedcom.vashonsoftware.com` (Cloudflare Pages), then announce to
+testers with that link instead of `pipx`.
 
 ## P0 — Before the repo goes public
 
@@ -180,8 +185,7 @@ notes, does harm.
 - [x] Branch protection on `main`: ruleset "Protect main" blocks
       deletion and force-push and requires a PR; admins can bypass
       (29 Oct 2026).
-- [ ] Require 2FA for the org (John's call: it removes members who
-      don't have 2FA).
+- [x] Require 2FA for the org (John, 29 Oct 2026).
 
 ### Going public (needs John)
 
@@ -209,11 +213,9 @@ a beta by then).
 
 Install and robustness:
 
-- [ ] Publish to PyPI with trusted publishing (no API tokens), so it's
-      `pipx install gedcom-privacy-guard`. The workflow is done
-      (`.github/workflows/release.yml`, 29 Oct 2026); still needed: the
-      `pypi` environment on GitHub and the trusted publisher on PyPI
-      (see "Going public").
+- [x] Publish to PyPI with trusted publishing (no API tokens), so it's
+      `pipx install gedcom-privacy-guard`. `0.4.0b1` published 29 Oct
+      2026 (`.github/workflows/release.yml`, `pypi` environment).
 - [x] **"Why your data is safe"** ([`docs/safety.md`](docs/safety.md)),
       backed by `tests/test_no_network.py` (29 Oct 2026).
 - [x] **Testers page** ([`docs/help-wanted.md`](docs/help-wanted.md))
@@ -298,10 +300,11 @@ Docs, short and accurate (genealogists first, developers second):
 
 ## P2 — After 1.0
 
-- [ ] **Web version** (ADR-004/005): parse, scan, report and redact
-      entirely in the browser. It's the way to reach iPad and Android
-      users, and anyone who won't use a terminal. Add a strict CSP, no
-      network calls and SRI on any CDN assets.
+- [x] **Web version** (ADR-004/005/010), moved up for testers: the
+      Python engine runs in the browser with Pyodide, every file is
+      served from our own site, and a strict CSP blocks other network
+      calls (29 Oct 2026). Left: deploy to `gedcom.vashonsoftware.com`;
+      offline support (PWA); try it on an iPad.
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.

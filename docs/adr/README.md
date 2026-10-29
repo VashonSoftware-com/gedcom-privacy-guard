@@ -11,6 +11,7 @@
 | [007](007-shared-privacy-rules.md) | One privacy rules document and policy file, shared with family site builds | Accepted |
 | [008](008-time-windows.md) | Time windows: 110-year proof, 1-year recently deceased, 3-year ID-theft | Accepted |
 | [009](009-rules-file-format.md) | Rules file format: built-ins plus overrides, presets, term modes | Accepted |
+| [010](010-web-app-runs-python-engine-in-pyodide.md) | Web app runs the Python engine in the browser with Pyodide | Accepted |
 
 The rules themselves, with their reasons, are in [`../PRIVACY-RULES.md`](../PRIVACY-RULES.md).
 

@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gedcom-privacy-guard"
+dynamic = ["version"]
+description = "Flag sensitive notes in a GEDCOM export for human review before you upload a family tree."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+    "openpyxl>=3.1",
+]
+keywords = ["gedcom", "genealogy", "privacy", "redaction"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Sociology :: Genealogy",
+]
+
+[project.urls]
+Repository = "https://github.com/VashonSoftware-com/gedcom-privacy-guard"
+Changelog = "https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/CHANGELOG.md"
+
+[project.scripts]
+gedcom-privacy-guard = "gedcom_privacy_guard.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=6",
+    "ruff>=0.14",
+    "pip-audit>=2.9",
+    "pre-commit>=4",
+    "hypothesis>=6.100",
+]
+
+[tool.hatch.version]
+path = "gedcom_privacy_guard/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["gedcom_privacy_guard", "tests", "sample_data", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# pyflakes, pycodestyle, isort, bugbear, pyupgrade, and bandit-style security checks
+select = ["F", "E", "W", "I", "B", "UP", "S"]
+# The formatter owns line length; long strings and comments are left alone.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]

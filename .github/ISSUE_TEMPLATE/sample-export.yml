@@ -1,0 +1,43 @@
+name: Sample export
+description: A made-up tree exported from your genealogy program, so we can test it.
+labels: [testing, sample-export]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Made-up data only.** Follow the recipe in
+        [docs/help-wanted.md](https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/help-wanted.md#1-send-a-made-up-sample-export-about-20-minutes)
+        in a new, empty tree. Before attaching, open the file in Notepad and
+        search for your real name, email and town.
+  - type: input
+    id: program
+    attributes:
+      label: Program and version
+      placeholder: RootsMagic 10.0.5
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Export options you chose
+      placeholder: GEDCOM 5.5.1, UTF-8, include notes, include private notes off
+  - type: textarea
+    id: skipped
+    attributes:
+      label: Anything from the recipe your program had no place for
+  - type: textarea
+    id: file
+    attributes:
+      label: The zipped .ged file
+      description: Drag the .zip here.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirm
+      options:
+        - label: This tree is made up and holds no real names, notes or contact details.
+          required: true
+        - label: It may be added to the project's public test files under the MIT license.
+          required: true

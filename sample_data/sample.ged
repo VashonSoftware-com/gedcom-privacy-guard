@@ -1,0 +1,53 @@
+0 HEAD
+1 SOUR GedcomPrivacyGuardSample
+1 GEDC
+2 VERS 5.5.1
+0 @I1@ INDI
+1 NAME John /Smith/
+1 SEX M
+1 BIRT
+2 DATE 12 MAR 1901
+2 PLAC Springfield, Ohio, USA
+1 DEAT
+2 DATE 04 JAN 1978
+2 PLAC Columbus, Ohio, USA
+1 _FSFTID LZXY-ABC
+1 AFN 1B2C-3D4
+1 FAMS @F1@
+1 NOTE John struggled with alcoholism for much of his adult life,
+2 CONT according to family lore he was institutionalized briefly in
+2 CONT 1938. This is unverified and should be checked against county
+2 CONT records.
+0 @I2@ INDI
+1 NAME Mary /Callahan/
+1 SEX F
+1 BIRT
+2 DATE 04 JUL 1905
+2 PLAC Dayton, Ohio, USA
+1 FAMS @F1@
+1 NOTE Mary's maiden name before a possibly-fictitious first marriage
+2 CONT was Callahan. Family legend says there was an earlier divorce
+2 CONT scandal that was never spoken of.
+0 @I3@ INDI
+1 NAME Robert /Smith/
+1 SEX M
+1 BIRT
+2 DATE 22 SEP 1932
+2 PLAC Columbus, Ohio, USA
+1 FAMC @F1@
+1 NOTE Robert served in the Army from 1985 to 1989 and later worked
+2 CONT as a machinist in Ohio. No known issues.
+0 @I4@ INDI
+1 NAME Robert /Smith/
+1 SEX M
+1 BIRT
+2 DATE 15 JUN 1968
+2 PLAC Dayton, Ohio, USA
+1 NOTE Also named Robert Smith -- unrelated branch, included here to
+2 CONT show why disambiguation columns matter. He has dealt with
+2 CONT anxiety disorder since his twenties.
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+0 TRLR

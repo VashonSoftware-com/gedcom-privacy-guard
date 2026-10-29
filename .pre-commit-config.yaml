@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+      - id: detect-private-key
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.3
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.24.0
+    hooks:
+      - id: markdownlint-cli2
+  - repo: local
+    hooks:
+      # Real family trees must never be committed; only the synthetic sample.
+      - id: no-real-gedcom
+        name: block GEDCOM and review files outside sample_data/
+        language: fail
+        entry: GEDCOM or review spreadsheet staged; only sample_data/ may hold test data
+        files: '(\.ged|review.*\.xlsx)$'
+        exclude: '^sample_data/'

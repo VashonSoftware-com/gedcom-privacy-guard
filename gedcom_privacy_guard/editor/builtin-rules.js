@@ -1,0 +1,190 @@
+// Generated from rules.yaml by scripts/build_editor_data.py. Don't edit.
+globalThis.GPG_BUILTIN_RULES = {
+ "version": 1,
+ "categories": {
+  "identity_numbers": {
+   "description": "Identity numbers and documents that enable identity theft.",
+   "severity": "high",
+   "enabled_from": "open",
+   "terms": [
+    "social security",
+    "ssn",
+    "passport number",
+    "driver's license",
+    "drivers license",
+    "credit card",
+    "bank account"
+   ],
+   "patterns": [
+    "\\b(?!000|666|9\\d\\d)\\d{3}[- ](?!00)\\d{2}[- ](?!0000)\\d{4}\\b"
+   ]
+  },
+  "contact_details": {
+   "description": "Phone numbers and email addresses, which usually belong to someone living.",
+   "severity": "high",
+   "enabled_from": "open",
+   "patterns": [
+    "(?:\\+?1[-. ]?)?\\(?\\b[2-9]\\d{2}\\)?[-. ][2-9]\\d{2}[-. ]\\d{4}\\b",
+    "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}\\b"
+   ]
+  },
+  "submitter": {
+   "description": "Your own name, address, phone and email from the submitter record (SUBM). Most programs add it to every export, and upload sites show it.",
+   "severity": "medium",
+   "enabled_from": "open",
+   "in": [
+    "submitter"
+   ],
+   "flag_every_value": true
+  },
+  "local_path": {
+   "description": "A file path on your own computer, e.g. in a media link. It can show your user name and folder layout, and the link won't work for anyone else.",
+   "severity": "low",
+   "enabled_from": "open",
+   "patterns": [
+    "\\b[A-Za-z]:[\\\\/]",
+    "\\\\\\\\[A-Za-z0-9._$-]+\\\\",
+    "(?:^|\\s)/(?:Users|home)/[A-Za-z0-9._-]+",
+    "\\bfile:/{2,3}"
+   ]
+  },
+  "already_private": {
+   "description": "Text marked private in your program ([[ ]] in Legacy, { } in RootsMagic). The program leaves it out of its own reports and exports, but in this file it's plain text that an upload site will show.",
+   "severity": "medium",
+   "enabled_from": "open",
+   "patterns": [
+    "\\[\\[[^\\]]+\\]\\]",
+    "\\{[^{}]+\\}"
+   ]
+  },
+  "mental_health": {
+   "description": "Mental illness, suicide and psychiatric care.",
+   "severity": "high",
+   "enabled_from": "standard",
+   "terms": [
+    "depression",
+    "anxiety disorder",
+    "bipolar",
+    "schizophreni*",
+    "suicid*",
+    "psychiatric",
+    "nervous breakdown",
+    "institutionaliz*",
+    "insane asylum",
+    "lunatic asylum",
+    "mental hospital"
+   ],
+   "exceptions": [
+    "Great Depression",
+    "economic depression"
+   ]
+  },
+  "substance_use": {
+   "description": "Alcohol and drug addiction.",
+   "severity": "high",
+   "enabled_from": "standard",
+   "terms": [
+    "alcoholi*",
+    "addict*",
+    "substance abuse",
+    "drug problem",
+    "overdose*",
+    "rehab",
+    "rehabilitation center",
+    "drunkard"
+   ]
+  },
+  "legal_sensitive": {
+   "description": "Crime, prison, affairs and births outside marriage.",
+   "severity": "medium",
+   "enabled_from": "standard",
+   "terms": [
+    "affair",
+    "illegitimate*",
+    "out of wedlock",
+    "arrested",
+    "convicted",
+    "prison",
+    "divorce scandal",
+    "disowned",
+    "jail",
+    "jailed"
+   ],
+   "exceptions": [
+    "prisoner of war",
+    "prison camp",
+    "POW camp"
+   ]
+  },
+  "unverified_claims": {
+   "description": "Rumor and family lore presented as fact.",
+   "severity": "medium",
+   "enabled_from": "standard",
+   "terms": [
+    "unverified",
+    "rumor*",
+    "rumour*",
+    "allegedly",
+    "family legend",
+    "not confirmed",
+    "disputed",
+    "unconfirmed",
+    "according to family lore"
+   ]
+  },
+  "family_secrets": {
+   "description": "Adoption, paternity and DNA surprises, which affect living relatives.",
+   "severity": "medium",
+   "enabled_from": "cautious",
+   "terms": [
+    "adopted",
+    "adoption",
+    "gave up for adoption",
+    "birth father",
+    "birth mother",
+    "biological father",
+    "biological mother",
+    "real father",
+    "paternity",
+    "DNA match*",
+    "half-sibling*",
+    "misattributed"
+   ]
+  },
+  "medical": {
+   "description": "Physical illness and causes of death that may be hereditary.",
+   "severity": "low",
+   "enabled_from": "cautious",
+   "terms": [
+    "cancer",
+    "tumor",
+    "dementia",
+    "alzheimer*",
+    "HIV",
+    "syphilis",
+    "tuberculosis",
+    "stillborn",
+    "miscarriage",
+    "abortion"
+   ]
+  },
+  "security_questions": {
+   "description": "Answers to common account security questions.",
+   "severity": "low",
+   "enabled_from": "cautious",
+   "terms": [
+    "maiden name",
+    "first pet",
+    "childhood nickname"
+   ]
+  },
+  "street_address": {
+   "description": "Street addresses. Old census addresses are usually harmless; recent ones aren't.",
+   "severity": "low",
+   "enabled_from": "cautious",
+   "patterns": [
+    "\\b\\d{1,5}\\s+(?:[A-Za-z]+\\.?\\s+){1,3}(?:Street|St|Avenue|Ave|Road|Rd|Lane|Ln|Drive|Dr|Boulevard|Blvd|Court|Ct|Way|Place|Pl|Terrace|Circle|Highway|Hwy)\\b"
+   ]
+  }
+ }
+};

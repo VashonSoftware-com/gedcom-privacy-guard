@@ -1,0 +1,47 @@
+name: Tried it
+description: How the 15-minute test went, from install to cleaned file.
+labels: [testing, usability]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying it. Tell us what happened, **not** what your
+        notes say: don't paste note text or attach your review spreadsheet.
+  - type: dropdown
+    id: finished
+    attributes:
+      label: Did you get a cleaned.ged?
+      options:
+        - Yes, within 15 minutes
+        - Yes, but it took longer
+        - No
+    validations:
+      required: true
+  - type: input
+    id: minutes
+    attributes:
+      label: About how many minutes?
+  - type: input
+    id: system
+    attributes:
+      label: Computer and program
+      placeholder: Windows 11, Legacy 10 export
+  - type: dropdown
+    id: file
+    attributes:
+      label: Which file did you scan?
+      options:
+        - My own export
+        - The sample in the repo
+  - type: textarea
+    id: stuck
+    attributes:
+      label: Where did you get stuck, or what didn't make sense?
+      placeholder: Didn't know what pipx was. The 'action' column wasn't obvious.
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Did the flags look right?
+      description: Roughly how many, and how many were false alarms. No note text.

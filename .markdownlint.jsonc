@@ -1,0 +1,10 @@
+{
+  // MD024 (no-duplicate-heading): allow repeated headings like "### Added"
+  // across different version sections in CHANGELOG.md -- that's the
+  // expected shape of Keep a Changelog, not a real duplicate.
+  "MD024": { "siblings_only": true },
+  // MD060 (table-column-style): pipe spacing in tables is cosmetic.
+  "MD060": false,
+  // MD013 (line-length): tables and code can't be wrapped.
+  "MD013": { "tables": false, "code_blocks": false, "headings": false }
+}

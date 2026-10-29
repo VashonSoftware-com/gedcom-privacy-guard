@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- No network: scripts only from beside this page, nothing fetched or sent. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'; img-src data:; form-action 'none'; base-uri 'none'">
+<title>Rules editor</title>
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --surface: #fffdf9;
+    --surface-2: #f0ebe3;
+    --text: #2a2620;
+    --muted: #6c645a;
+    --line: #ded6ca;
+    --accent: #2f5d50;
+    --accent-ink: #ffffff;
+    --focus: #2f6fb3;
+    --high: #a3302b;
+    --high-bg: #f8dedb;
+    --medium: #8a5a00;
+    --medium-bg: #f7e7c4;
+    --low: #4a5568;
+    --low-bg: #e3e7ee;
+    --yours: #2f5d50;
+    --yours-bg: #dcebe5;
+    --radius: 10px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1916;
+      --surface: #24211d;
+      --surface-2: #2d2a25;
+      --text: #ece6dc;
+      --muted: #a89f92;
+      --line: #3d3832;
+      --accent: #7fbfa8;
+      --accent-ink: #13221d;
+      --focus: #8cb8ea;
+      --high: #f0948d;
+      --high-bg: #4a2522;
+      --medium: #e6be6a;
+      --medium-bg: #43361b;
+      --low: #b4bfcf;
+      --low-bg: #333a45;
+      --yours: #8fd0b8;
+      --yours-bg: #213a32;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  body.dropping { outline: 3px dashed var(--accent); outline-offset: -8px; }
+  h1, h2, h3, h4 { margin: 0; line-height: 1.25; }
+  h2 { font-size: 1.05rem; }
+  h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; margin-bottom: .35rem; }
+  h4 .hint { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  code { font: 12.5px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; word-break: break-all; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .hint { color: var(--muted); font-size: .85rem; }
+  .spacer { flex: 1; }
+
+  /* top bar */
+  .top {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: .75rem 16px;
+  }
+  .top-inner { max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; }
+  .brand { display: flex; flex-direction: column; min-width: 0; }
+  .brand small { color: var(--muted); font-size: .75rem; letter-spacing: .03em; }
+  .brand h1 { font-size: 1.2rem; }
+  .file { min-width: 0; flex: 1 1 14rem; }
+  @media (max-width: 959px) { .top { position: static; } }
+  .file strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file span { color: var(--muted); font-size: .85rem; }
+  .actions { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+  .btn {
+    font: inherit; font-size: .9rem; cursor: pointer;
+    border: 1px solid var(--line); background: var(--surface-2); color: var(--text);
+    padding: .4rem .8rem; border-radius: 8px;
+  }
+  .btn:hover { border-color: var(--muted); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn.small { padding: .25rem .6rem; font-size: .85rem; }
+  .link { font: inherit; font-size: .85rem; background: none; border: 0; color: var(--accent); text-decoration: underline; cursor: pointer; padding: 0; }
+
+  /* layout */
+  main { max-width: 1240px; margin: 0 auto; padding: 1rem 16px 4rem; display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 960px) {
+    main { grid-template-columns: minmax(0, 1fr) 400px; align-items: start; }
+    .side { position: sticky; top: 5.5rem; max-height: calc(100vh - 6.5rem); overflow: auto; }
+  }
+  .col { display: grid; gap: 1rem; min-width: 0; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; min-width: 0; }
+  .intro p { margin: .25rem 0 0; }
+  .preset-row { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; margin-top: .75rem; }
+  .preset-row label { font-weight: 600; }
+  select, input[type=text], textarea {
+    font: inherit; color: var(--text); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 8px; padding: .35rem .55rem; max-width: 100%;
+  }
+  #notice { border-color: var(--medium); background: var(--medium-bg); }
+  #notice p { margin: 0 0 .4rem; }
+
+  /* categories */
+  #categories { display: grid; gap: .75rem; }
+  .cat.off { opacity: .72; }
+  .cat.changed { border-left: 4px solid var(--yours); }
+  .cat-head { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .cat-head h3 { font-size: 1.02rem; }
+  .cat-head h3 label { cursor: pointer; }
+  .desc { margin: .4rem 0 0; color: var(--muted); }
+  .note { margin: .4rem 0 0; font-size: .87rem; color: var(--muted); font-style: italic; }
+  .note.warn { color: var(--medium); font-style: normal; }
+  .group { margin-top: .85rem; }
+  .cat-foot { margin-top: .75rem; text-align: right; }
+  .tag { font-size: .72rem; padding: .05rem .45rem; border-radius: 99px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+  .tag-yours, .tag-changed { background: var(--yours-bg); color: var(--yours); border-color: transparent; }
+
+  .switch { position: relative; display: inline-block; width: 38px; height: 22px; flex: none; }
+  .switch input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .switch .track { position: absolute; inset: 0; border-radius: 99px; background: var(--line); transition: background .15s; pointer-events: none; }
+  .switch .track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.3); }
+  .switch input:checked + .track { background: var(--accent); }
+  .switch input:checked + .track::after { transform: translateX(16px); }
+  .switch input:focus-visible + .track { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .switch input:disabled { cursor: not-allowed; }
+
+  select.sev { font-weight: 600; font-size: .85rem; padding: .2rem .4rem; }
+  .sev-high { color: var(--high); }
+  .sev-medium { color: var(--medium); }
+  .sev-low { color: var(--low); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: .15rem; max-width: 100%;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 99px;
+    padding: .1rem .2rem .1rem .65rem; font-size: .88rem;
+  }
+  .chip-text { overflow-wrap: anywhere; }
+  .chip.yours { background: var(--yours-bg); border-color: transparent; color: var(--yours); }
+  .chip.removed .chip-text { text-decoration: line-through; color: var(--muted); }
+  .chip.removed { border-style: dashed; background: transparent; }
+  .chip-x { font: inherit; border: 0; background: none; color: inherit; cursor: pointer; width: 1.5rem; height: 1.5rem; border-radius: 50%; line-height: 1; }
+  .chip-x:hover { background: var(--line); }
+  .chip.locked { padding-right: .65rem; }
+  .adder { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .5rem; }
+  .adder input { flex: 1 1 14rem; min-width: 0; }
+  .adder .hint { flex-basis: 100%; }
+  .patterns summary { cursor: pointer; color: var(--muted); font-size: .88rem; }
+  .patterns ul { margin: .4rem 0; padding-left: 1.2rem; }
+  .patterns p { margin: 0; }
+
+  /* tester */
+  #test-text { width: 100%; min-height: 8rem; resize: vertical; }
+  .test-controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .5rem 0; }
+  .test-controls select { flex: 1 1 10rem; min-width: 0; }
+  #test-out {
+    white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bg);
+    border: 1px solid var(--line); border-radius: 8px; padding: .6rem .7rem; min-height: 3rem;
+  }
+  mark.hit { border-radius: 3px; padding: 0 1px; color: inherit; }
+  mark.sev-high { background: var(--high-bg); box-shadow: inset 0 -2px var(--high); }
+  mark.sev-medium { background: var(--medium-bg); box-shadow: inset 0 -2px var(--medium); }
+  mark.sev-low { background: var(--low-bg); box-shadow: inset 0 -2px var(--low); }
+  .skipped { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
+  #test-list { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .3rem; }
+  #test-list li { display: grid; grid-template-columns: 4.2rem 1fr; gap: .45rem; align-items: baseline; font-size: .9rem; }
+  #test-list li > span:last-child { overflow-wrap: anywhere; }
+  .skipped-row { opacity: .75; }
+  .pill { text-align: center; font-size: .7rem; font-weight: 700; text-transform: uppercase; padding: .05rem .4rem; border-radius: 4px; background: var(--surface-2); }
+  .pill.sev-high { background: var(--high-bg); }
+  .pill.sev-medium { background: var(--medium-bg); }
+  .pill.sev-low { background: var(--low-bg); }
+  #yaml { margin: .5rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 12.5px/1.45 ui-monospace, "Cascadia Mono", Consolas, monospace; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .7rem; }
+  details > summary { cursor: pointer; }
+
+  form.grid { display: grid; gap: .5rem; margin-top: .75rem; }
+  form.grid label { display: grid; gap: .2rem; font-size: .88rem; color: var(--muted); }
+  form.grid .row { display: flex; gap: .5rem; flex-wrap: wrap; }
+  form.grid .row > label { flex: 1 1 10rem; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 1.25rem; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none;
+    max-width: min(560px, calc(100vw - 32px));
+    background: var(--text); color: var(--bg); padding: .6rem 1rem; border-radius: 8px;
+    transition: opacity .15s, transform .15s; z-index: 10;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .toast.error { background: var(--high); color: #fff; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><small>GEDCOM Privacy Guard</small><h1>Rules editor</h1></div>
+    <div class="file" aria-live="polite"><strong id="file-name">New rules file</strong><span id="file-state"></span></div>
+    <div class="actions">
+      <button class="btn" id="new" type="button">New</button>
+      <button class="btn" id="open" type="button" title="Ctrl+O">Open…</button>
+      <button class="btn primary" id="save" type="button" title="Ctrl+S">Save</button>
+      <button class="btn" id="save-as" type="button" title="Ctrl+Shift+S">Save as…</button>
+    </div>
+  </div>
+</header>
+<input type="file" id="file-input" accept=".yaml,.yml,.txt" hidden>
+
+<main id="app">
+  <div class="col">
+    <section class="card intro" aria-labelledby="intro-title">
+      <h2 id="intro-title">What to flag for review</h2>
+      <p class="hint">
+        Start from a preset, then turn categories on or off, change how serious each one is,
+        and add or remove words. Your rules file keeps only your changes, so later
+        improvements to the built-in lists still reach you. Everything stays in this browser tab.
+      </p>
+      <div class="preset-row">
+        <label for="preset">Preset</label>
+        <select id="preset" name="preset"></select>
+        <span class="hint" id="preset-help"></span>
+      </div>
+    </section>
+    <section class="card" id="notice" hidden aria-live="polite"></section>
+
+    <div id="categories"></div>
+
+    <section class="card" aria-labelledby="new-cat-title">
+      <details>
+        <summary><h2 id="new-cat-title" style="display:inline">Add a category of your own</h2></summary>
+        <p class="hint">For things only your family knows to look for, such as a nickname or a place.</p>
+        <form class="grid" id="new-category">
+          <div class="row">
+            <label>Name <input type="text" name="name" placeholder="our_family" required autocomplete="off"></label>
+            <label>Severity
+              <select name="severity"><option>high</option><option selected>medium</option><option>low</option></select>
+            </label>
+          </div>
+          <label>First word or phrase <input type="text" name="term" placeholder="Uncle Bob's other family" required autocomplete="off"></label>
+          <label>Description (optional) <input type="text" name="description" placeholder="What this category is for" autocomplete="off"></label>
+          <div><button class="btn primary" type="submit">Add category</button></div>
+        </form>
+      </details>
+    </section>
+  </div>
+
+  <aside class="col side">
+    <section class="card" aria-labelledby="test-title">
+      <h2 id="test-title">Try it on a note</h2>
+      <p class="hint">Paste text from your tree. It's checked here as you type, with the rules on the left.</p>
+      <label class="visually-hidden" for="test-text">Text to test</label>
+      <textarea id="test-text" name="test-text" spellcheck="false" placeholder="Paste a note here…"></textarea>
+      <div class="test-controls">
+        <label for="test-loc" class="hint">As if it were</label>
+        <select id="test-loc" name="test-loc"></select>
+        <button class="btn small" id="test-sample" type="button">Use an example</button>
+      </div>
+      <div id="test-out" aria-live="polite"></div>
+      <p class="hint" id="test-summary" style="margin:.5rem 0 0"></p>
+      <ul id="test-list"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="global-title">
+      <h2 id="global-title">Exceptions for every category</h2>
+      <p class="hint">A phrase here is never flagged, whatever category it would match (e.g. a street called Asylum Road).</p>
+      <div class="chips" id="global-exceptions"></div>
+      <p class="hint" id="global-exceptions-empty">None yet.</p>
+      <div id="global-adder"></div>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary><h2 style="display:inline">The file you'll save</h2></summary>
+        <pre id="yaml"></pre>
+        <p class="hint">Use it with: <code>gedcom-privacy-guard scan FAMILY.ged --rules my-rules.yaml</code></p>
+      </details>
+    </section>
+  </aside>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/js-yaml.min.js"></script>
+<script src="builtin-rules.js"></script>
+<script src="rules-engine.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

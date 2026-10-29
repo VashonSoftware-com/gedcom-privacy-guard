@@ -1,0 +1,17 @@
+# Real family data lives here; never committed.
+private/
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+review.csv
+review*.xlsx
+cleaned.ged
+*.ged
+!sample_data/sample.ged
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+.coverage
+dist/

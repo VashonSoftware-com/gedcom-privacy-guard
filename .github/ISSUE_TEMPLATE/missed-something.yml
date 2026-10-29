@@ -1,0 +1,48 @@
+name: Missed something
+description: A sensitive note the scanner didn't flag.
+labels: [rules, missed]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Don't paste real family notes, names or files.** Rewrite the note
+        with names, dates and places changed, keeping the phrase that matters.
+  - type: textarea
+    id: example
+    attributes:
+      label: Example note (rewritten)
+      placeholder: Uncle Bob was sent to the state hospital.
+    validations:
+      required: true
+  - type: input
+    id: phrase
+    attributes:
+      label: The phrase that should be flagged
+      placeholder: state hospital
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Which category does it belong in?
+      options:
+        - mental_health
+        - substance_use
+        - legal_sensitive
+        - unverified_claims
+        - family_secrets
+        - medical
+        - identity_numbers
+        - contact_details
+        - Something new
+        - Not sure
+  - type: input
+    id: program
+    attributes:
+      label: Program that made the GEDCOM file, and its version
+      placeholder: RootsMagic 10
+  - type: input
+    id: version
+    attributes:
+      label: gedcom-privacy-guard version
+      description: Run `gedcom-privacy-guard --version`.

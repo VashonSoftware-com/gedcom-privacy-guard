@@ -1,0 +1,33 @@
+name: False alarm
+description: A harmless note the scanner flagged.
+labels: [rules, false-positive]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Don't paste real family notes, names or files.** Rewrite the note
+        with names, dates and places changed, keeping the phrase that matters.
+  - type: textarea
+    id: example
+    attributes:
+      label: Example note (rewritten)
+      placeholder: He lived through the Great Depression.
+    validations:
+      required: true
+  - type: input
+    id: term
+    attributes:
+      label: Matched term and category (from the report)
+      placeholder: depression (mental_health)
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's harmless
+      description: Is this phrase always harmless, or only here?
+  - type: input
+    id: version
+    attributes:
+      label: gedcom-privacy-guard version
+      description: Run `gedcom-privacy-guard --version`.

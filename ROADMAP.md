@@ -174,8 +174,9 @@ notes, does harm.
       the report says which locations it skipped.
 - [x] `SECURITY.md`: report privately, don't send real family files,
       and what counts as a vulnerability.
-- [ ] GitHub private vulnerability reporting, branch protection and 2FA
-      (only possible once public; see below).
+- [x] Public as `0.4.0b1` from one squashed commit, with private
+      vulnerability reporting on (29 Oct 2026).
+- [ ] Branch protection on `main`, and require 2FA for the org.
 
 ### Going public (needs John)
 

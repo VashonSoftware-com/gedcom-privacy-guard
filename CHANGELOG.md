@@ -15,8 +15,8 @@ planned.
 
 ### Added
 
-- Web page: a bulldog logo wearing the Cornelisons.com shield (that
-  site's own drawing of arms sold under the name; no claim to be
+- Web page: a logo (an orca over the Cornelisons.com shield, that
+  site's own version of arms sold under the name, with no claim to be
   genuine), app icons, a list of what the tool offers, a "How it works"
   picture of what gets flagged, and links to GitHub and to a new
   [what-it-can-do.md](docs/what-it-can-do.md).

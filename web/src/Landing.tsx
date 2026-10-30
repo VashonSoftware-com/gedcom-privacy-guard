@@ -158,7 +158,7 @@ export function HowItWorks() {
             ➜
           </div>
           <div className="flow-step guard">
-            <img src="/logo.svg" alt="" />
+            <img src="/logo.webp" alt="" width="130" height="130" />
             <span>The guard reads every note</span>
           </div>
           <div className="flow-arrow" aria-hidden="true">

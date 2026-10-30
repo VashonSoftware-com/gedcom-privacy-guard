@@ -50,7 +50,8 @@ Open a new terminal afterwards so the command is found.
 3. **Review** `review.xlsx`. Each row is one hit, with the matched words
    highlighted and enough about the person (dates, parents, spouses, IDs)
    to tell relatives of the same name apart. Pick an action in the first
-   column: `keep`, `redact` (replace the note), `rewrite:your wording`, or
+   column: `keep`, `redact` (replace the note), `mask` (replace just the
+   flagged words with `[removed]`), `rewrite:your wording`, or
    `privatize` (Legacy users only; see [legacy.md](https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/legacy.md)).
 4. **Write** the cleaned copy:
 

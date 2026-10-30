@@ -14,9 +14,9 @@ Columns (roughly in review order -- what to decide on first, on the
 left; disambiguation/identifier lookups you only need occasionally,
 further right):
     action             - YOU FILL THIS IN: keep | redact | rewrite:<text> |
-        privatize. Column A, frozen alongside the header row, so it stays
-        visible while you scroll right to read context. Has an in-cell
-        dropdown listing the four options (pick "rewrite:" then type your
+        mask | privatize. Column A, frozen alongside the header row, so it
+        stays visible while you scroll right to read context. Has an in-cell
+        dropdown listing the five options (pick "rewrite:" then type your
         own text after it for a custom rewrite).
     name               - whose record the text is in: a person, "A & B"
         for a family, the people sharing a shared note, a source title
@@ -93,7 +93,7 @@ SEVERITY_ICONS = {
 # how you get "rewrite:<text>"; the dropdown doesn't block free typing
 # (no error message/style set), so a full custom rewrite: value is
 # still fine even though it won't exactly match a list entry.
-_ACTION_OPTIONS = '"keep,redact,privatize,rewrite:"'
+_ACTION_OPTIONS = '"keep,redact,mask,privatize,rewrite:"'
 
 # Columns that hold integer line numbers rather than text, so they get
 # written as real numbers (sortable/filterable) instead of strings.
@@ -356,10 +356,17 @@ def _force_text(cell) -> None:
         cell.quotePrefix = True
 
 
-def build_rows(ged: Gedcom, scanners: list) -> tuple[list[dict], Counter]:
+def build_rows(ged: Gedcom, scanners: list, progress=None) -> tuple[list[dict], Counter]:
+    """One row per finding, most severe first, and how many text fields
+    were scanned in each location. ``progress(fraction)``, if given, is
+    called about a hundred times as the scan goes."""
     rows = []
     scanned: Counter = Counter()
-    for block in ged.text_blocks:
+    total = len(ged.text_blocks)
+    step = max(1, total // 100)
+    for i, block in enumerate(ged.text_blocks):
+        if progress and i % step == 0:
+            progress(i / total)
         scanned[block.location] += 1
         findings: list[Finding] = []
         for scanner in scanners:
@@ -435,8 +442,10 @@ def _write_summary(ws: Worksheet, ged: Gedcom, gedcom_path: str, rows, scanned, 
     ws.column_dimensions["C"].width = 80
 
 
-def write_report(path: str, ged: Gedcom, scanners: list, gedcom_path: str = "") -> int:
-    rows, scanned = build_rows(ged, scanners)
+def write_report(path: str, ged: Gedcom, scanners: list, gedcom_path: str = "", built=None) -> int:
+    """Write review.xlsx and return the number of findings. ``built`` is
+    build_rows' result, if the caller already has it."""
+    rows, scanned = built or build_rows(ged, scanners)
 
     wb = Workbook()
     ws = wb.active

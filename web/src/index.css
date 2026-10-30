@@ -474,3 +474,68 @@ footer p {
 .footer-credit {
   margin-left: auto;
 }
+
+/* The scan's progress: a ring that fills, with an orca swimming round it. */
+.progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.progress svg {
+  width: 150px;
+  overflow: visible;
+}
+
+.progress .track,
+.progress .fill {
+  fill: none;
+  stroke-width: 7;
+}
+
+.progress .track {
+  stroke: var(--line);
+}
+
+.progress .fill {
+  stroke: #152a41;
+  stroke-linecap: round;
+}
+
+.progress .pct {
+  font-size: 22px;
+  font-weight: bold;
+  fill: var(--ink);
+}
+
+.progress .swim {
+  transform-origin: 60px 60px;
+  animation: swim 3s linear infinite;
+}
+
+.progress .orca {
+  animation: bob 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes swim {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(-1.5px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(1.5px) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress .swim,
+  .progress .orca {
+    animation: none;
+  }
+}

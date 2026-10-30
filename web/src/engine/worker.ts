@@ -41,7 +41,8 @@ self.onmessage = async (event: MessageEvent<Request>) => {
     const py = await ready;
     if (req.type === "scan") {
       py.FS.writeFile(GEDCOM, req.bytes);
-      const json = py.globals.get("scan_to_json")(GEDCOM, REPORT) as string;
+      const progress = (fraction: number, stage: string) => post({ type: "progress", fraction, stage });
+      const json = py.globals.get("scan_to_json")(GEDCOM, REPORT, progress) as string;
       const report = py.FS.readFile(REPORT);
       post({ type: "scanned", result: JSON.parse(json), report }, [report.buffer]);
     } else if (req.type === "redact") {

@@ -21,6 +21,15 @@ def test_scan_returns_rows_and_writes_report(tmp_path):
     assert ws.max_row == len(result["rows"]) + 1
 
 
+def test_scan_reports_progress_from_start_to_finish(tmp_path):
+    calls = []
+    scan_to_json(SAMPLE, str(tmp_path / "review.xlsx"), lambda f, stage: calls.append((f, stage)))
+    fractions = [f for f, _ in calls]
+    assert fractions[0] == 0 and fractions[-1] == 1
+    assert fractions == sorted(fractions)
+    assert all(stage for _, stage in calls)
+
+
 def test_redact_applies_actions_from_the_page(tmp_path):
     rows = json.loads(scan_to_json(SAMPLE, str(tmp_path / "review.xlsx")))["rows"]
     for row in rows:

@@ -17,15 +17,27 @@ from .rules import load_rules
 from .scanner import KeywordScanner
 
 
-def scan_to_json(gedcom_path: str, report_path: str) -> str:
+def scan_to_json(gedcom_path: str, report_path: str, progress=None) -> str:
     """Scan a GEDCOM, write review.xlsx to report_path, and return the
     flagged rows, the full text of each flagged field (keyed by its line)
-    and a summary as JSON."""
+    and a summary as JSON. ``progress(fraction, stage)``, if given, hears
+    how far along it is, from 0 to 1."""
+
+    def report(fraction: float, stage: str) -> None:
+        if progress:
+            progress(round(fraction, 3), stage)
+
+    # Shares of the time each stage took on a 60,000-person test tree.
+    report(0, "Reading your file")
     rules = load_rules()
     ged = read_gedcom(gedcom_path)
     scanners = [KeywordScanner(rules)]
-    rows, _ = build_rows(ged, scanners)
-    write_report(report_path, ged, scanners, gedcom_path=gedcom_path)
+    report(0.15, "Checking the notes")
+    built = build_rows(ged, scanners, lambda f: report(0.15 + 0.82 * f, "Checking the notes"))
+    rows = built[0]
+    report(0.97, "Making the list")
+    write_report(report_path, ged, scanners, gedcom_path=gedcom_path, built=built)
+    report(1, "Done")
     flagged = {row["line"] for row in rows}
     texts = {b.start_line + 1: b.text for b in ged.text_blocks if b.start_line + 1 in flagged}
     return json.dumps(

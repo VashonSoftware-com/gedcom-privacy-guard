@@ -66,7 +66,7 @@ def cmd_scan(args):
         print(f"Warning: {warning}")
     print(
         "Open that spreadsheet, fill in the 'action' column (keep / redact / "
-        "rewrite:<text> / privatize), then run the 'redact' command."
+        "rewrite:<text> / mask / privatize), then run the 'redact' command."
     )
 
 
@@ -85,6 +85,7 @@ def cmd_redact(args):
     print(f"Wrote cleaned file -> {args.out}")
     print(f"  redacted: {stats['redacted']}")
     print(f"  rewritten: {stats['rewritten']}")
+    print(f"  words removed: {stats['masked']}")
     print(f"  privatized: {stats['privatized']}")
     print(f"  kept as-is: {stats['kept']}")
     print("Original .ged was not modified.")

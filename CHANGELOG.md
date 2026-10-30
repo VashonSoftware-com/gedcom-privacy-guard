@@ -15,6 +15,13 @@ planned.
 
 ### Added
 
+- `mask` action: replaces just the flagged words with `[removed]` and
+  keeps the rest of the note. On the web page it's "Remove just the
+  highlighted words", for one note or all of them.
+- Web page: a progress ring, with an orca swimming round it, while a
+  file is checked; "Rewrite it" starts from the note's own text; the
+  Excel download is offered at the top of a long list; dropping a link
+  instead of a file says so.
 - Web page: a logo (an orca over the Cornelisons.com shield, that
   site's own version of arms sold under the name, with no claim to be
   genuine), app icons, a list of what the tool offers, a "How it works"
@@ -23,6 +30,14 @@ planned.
 - Web page works offline and can be installed as an app: a service
   worker keeps the page's own files (never the user's tree), generated
   at build time with the list of files to keep.
+
+### Fixed
+
+- "During the Depression" and "the Depression years" are no longer
+  flagged as mental health.
+- A FamilySearch ID ending in `-SSN` (such as `ABCD-SSN`) is no longer
+  flagged as a Social Security number.
+- The web page scanned every file twice; it now scans once.
 
 ## [0.4.0b1] - 2026-10-29
 

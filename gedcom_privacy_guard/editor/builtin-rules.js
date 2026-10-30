@@ -8,7 +8,6 @@ globalThis.GPG_BUILTIN_RULES = {
    "enabled_from": "open",
    "terms": [
     "social security",
-    "ssn",
     "passport number",
     "driver's license",
     "drivers license",
@@ -16,7 +15,8 @@ globalThis.GPG_BUILTIN_RULES = {
     "bank account"
    ],
    "patterns": [
-    "\\b(?!000|666|9\\d\\d)\\d{3}[- ](?!00)\\d{2}[- ](?!0000)\\d{4}\\b"
+    "\\b(?!000|666|9\\d\\d)\\d{3}[- ](?!00)\\d{2}[- ](?!0000)\\d{4}\\b",
+    "(?<![\\w-])ssn\\b"
    ]
   },
   "contact_details": {
@@ -76,7 +76,9 @@ globalThis.GPG_BUILTIN_RULES = {
    ],
    "exceptions": [
     "Great Depression",
-    "economic depression*"
+    "economic depression*",
+    "during the depression",
+    "the depression years"
    ]
   },
   "substance_use": {

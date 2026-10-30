@@ -34,6 +34,7 @@ export interface ScanResult {
 export interface RedactStats {
   redacted: number;
   rewritten: number;
+  masked: number;
   privatized: number;
   kept: number;
 }
@@ -43,6 +44,8 @@ export type Request = { type: "scan"; bytes: Uint8Array } | { type: "redact"; ro
 export type Response =
   | { type: "status"; text: string }
   | { type: "ready" }
+  /** How far a scan has got, from 0 to 1, and what it's doing. */
+  | { type: "progress"; fraction: number; stage: string }
   | { type: "error"; message: string }
   | { type: "scanned"; result: ScanResult; report: Uint8Array }
   | { type: "redacted"; stats: RedactStats; cleaned: Uint8Array };

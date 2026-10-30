@@ -67,15 +67,19 @@ web page uses the standard preset.
 Nothing, until you choose. For each flagged note you pick:
 
 - **Keep**: left exactly as it was.
-- **Remove**: the whole note is replaced with
+- **Remove just the highlighted words**: each flagged phrase (a phone
+  number, *alcoholic*) becomes `[removed]`; the rest of the note stays.
+- **Remove the whole note**: it's replaced with
   `[REDACTED BY GEDCOM PRIVACY GUARD]`.
-- **Rewrite**: the note is replaced with your wording.
+- **Rewrite**: the note is replaced with your wording. The box starts
+  with the note's own text, so you only change the bad parts.
 - **Mark private** (Legacy users only): the flagged words are wrapped in
   Legacy's `[[ ]]` private markers, so they disappear when you export
   from Legacy again. See [legacy.md](legacy.md).
 
 If one note has several hits with different choices, the more cautious
-one wins: remove beats rewrite beats mark private beats keep.
+one wins: remove the note beats rewrite beats remove words beats mark
+private beats keep.
 
 The result is a **new file**; your original is never changed. The new
 file is UTF-8 (its header is updated to say so), keeps the original's

@@ -183,6 +183,9 @@ def test_scanner_ignores_clean_text():
 def test_great_depression_is_not_flagged():
     assert _scanner().scan("They lost the farm in the Great Depression.") == []
     assert _scanner().scan("She suffered from depression.") != []
+    # "the Depression" is the 1930s too
+    assert _scanner().scan("He had tough times during the Depression.") == []
+    assert _scanner().scan("They married in the Depression years.") == []
 
 
 def test_exceptions_take_the_term_syntax():
@@ -196,6 +199,9 @@ def test_whole_word_matching():
     s = _scanner()
     assert s.scan("Veterans Assn. of Ohio") == []  # 'ssn' inside a word
     assert [f.matched_term for f in s.scan("His SSN was lost")] == ["SSN"]
+    # a FamilySearch person ID can end in -SSN
+    assert s.scan("FamilySearch entry for John Doe, person ID ABC1-SSN.") == []
+    assert [f.matched_term for f in s.scan("SSN: unknown")] == ["SSN"]
     assert [f.matched_term for f in s.scan("an alcoholic father")] == ["alcoholic"]  # prefix
 
 
@@ -324,6 +330,18 @@ def test_privatize_wraps_only_matched_phrase(write_ged, tmp_path):
     content = open(out, encoding="utf-8").read()
     assert stats["privatized"] == 1
     assert "1 NOTE He struggled with [[alcoholism]] and a drug problem too." in content
+
+
+def test_mask_removes_only_matched_phrases(write_ged, tmp_path):
+    out = str(tmp_path / "out.ged")
+    rows = [
+        _row(NOTE_LINE, action="mask", term="alcoholism"),
+        _row(NOTE_LINE, action="mask", term="drug problem"),
+    ]
+    stats = apply_redactions(write_ged(NOTE_GED), rows, out)
+    content = open(out, encoding="utf-8").read()
+    assert stats["masked"] == 1
+    assert "1 NOTE He struggled with [removed] and a [removed] too." in content
 
 
 def test_redact_wins_over_privatize_on_same_note(write_ged, tmp_path):

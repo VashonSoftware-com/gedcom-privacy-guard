@@ -55,6 +55,11 @@ export and saves a cleaned file in **under 15 minutes**, with no help.
    [*Tried it*](https://github.com/VashonSoftware-com/gedcom-privacy-guard/issues/new?template=tried-it.yml)
    issue: how long it took, where you got stuck, and what didn't make
    sense. Share times and steps only, not your notes or the spreadsheet.
+5. If something went wrong, press **Copy a problem report** (below the
+   list, or under the error) and paste it into a
+   [*Something went wrong*](https://github.com/VashonSoftware-com/gedcom-privacy-guard/issues/new?template=problem.yml)
+   issue. It says which program made your file and how big it is, never
+   what's in it, and you see every word before you paste.
 
 Comfortable with a command line? Try the same with the
 [command-line version](../README.md) instead.

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { RedactStats, Request, Response, Row, ScanResult } from "./engine/protocol";
 import { Features, HowItWorks, Offline } from "./Landing";
+import { ProblemReport } from "./ProblemReport";
 import { Progress } from "./Progress";
 import { CategoryChart, categoryLabel } from "./Review";
 
@@ -92,6 +93,9 @@ export default function App() {
   const [severity, setSeverity] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
+  const [fileSize, setFileSize] = useState(0);
+  const [seconds, setSeconds] = useState<number | null>(null);
+  const scanStarted = useRef(0);
   // The worker's handler is set once, so it reads the file name from here.
   const fileNameRef = useRef(fileName);
   fileNameRef.current = fileName;
@@ -109,6 +113,7 @@ export default function App() {
         setProgress(null);
       } else if (msg.type === "scanned") {
         setProgress(null);
+        setSeconds((performance.now() - scanStarted.current) / 1000);
         setScan(msg.result);
         setReport(msg.report);
         setGroups(groupRows(msg.result));
@@ -135,6 +140,9 @@ export default function App() {
 
   async function openFile(file: File) {
     setFileName(file.name);
+    setFileSize(file.size);
+    setSeconds(null);
+    scanStarted.current = performance.now();
     setScan(null);
     setDone(null);
     setProgress({ fraction: 0, stage: "Reading your file" });
@@ -295,6 +303,9 @@ export default function App() {
             {fileName && !scan && <strong>{fileName}: </strong>}
             {error}
           </div>
+        )}
+        {error && fileName && !scan && (
+          <ProblemReport scan={null} error={error} fileSize={fileSize} seconds={null} />
         )}
 
         {!scan && !busy && (
@@ -533,6 +544,7 @@ export default function App() {
           </>
         )}
 
+        {scan && <ProblemReport scan={scan} error={error} fileSize={fileSize} seconds={seconds} />}
       </main>
 
       <footer>

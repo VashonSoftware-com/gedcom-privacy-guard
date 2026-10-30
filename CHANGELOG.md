@@ -15,6 +15,11 @@ planned.
 
 ### Added
 
+- "Copy a problem report" on the web page, under the list and under any
+  error: a plain-text summary (version, browser, which program made the
+  file, its encoding, record and flag counts, warnings, timing) with no
+  names, notes, places or dates. The tester sees it all and pastes it
+  into the new *Something went wrong* issue template; nothing is sent.
 - The help pages are now part of the web page: "What it can and can't
   do", "Help us test it", getting your GEDCOM file, why your data is
   safe, how it decides and Legacy users, made from `docs/` at build

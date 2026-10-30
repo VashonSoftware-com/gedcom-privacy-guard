@@ -29,6 +29,23 @@ export interface ScanResult {
   rows: Row[];
   /** Full text of each flagged field, keyed by its line number. */
   texts: Record<string, string>;
+  facts: FileFacts;
+}
+
+/** What a problem report may say about the file (gedcom_privacy_guard.web.file_facts). */
+export interface FileFacts {
+  program: string;
+  program_name: string;
+  program_version: string;
+  gedcom_version: string;
+  declared_charset: string;
+  read_as: string;
+  bom: boolean;
+  line_ending: string;
+  lines: number;
+  records: Record<string, number>;
+  custom_tags: Record<string, number>;
+  custom_tag_kinds: number;
 }
 
 export interface RedactStats {

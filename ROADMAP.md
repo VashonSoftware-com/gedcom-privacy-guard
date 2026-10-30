@@ -319,13 +319,29 @@ Docs, short and accurate (genealogists first, developers second):
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.
-- [ ] **"Copy a problem report" button** (John chose, 30 Oct 2026): plain
+- [x] **"Copy a problem report" button** (John chose, 30 Oct 2026): plain
       text the tester reads, then pastes into a GitHub issue themselves;
-      nothing is sent. Version and build, the exporting program and its
-      version (HEAD SOUR), encoding, counts (people, notes, flags per
-      category), warnings as codes with line numbers, unusual tags,
-      timing. No names, notes, places or dates. Add it to
-      help-wanted.md's "Try it out".
+      nothing is sent. Version and build, browser, the exporting program
+      and its version (HEAD SOUR), encoding, line endings, record counts,
+      custom tags, counts per category and severity, our own warnings
+      (line numbers, no file text), timing, and any error. No names,
+      notes, places, dates or file names (`web.file_facts`, tested).
+      Shown under Step 3 and under an error; pastes into the new
+      *Something went wrong* issue template (30 Oct 2026).
+- [ ] **Work through a long list at your own pace** (John, 30 Oct 2026):
+      a tree with hundreds of flags (549 in a 192k-person export) takes
+      more than one sitting. The page already offers the list as an Excel
+      download, but it holds no choices made on the page, the page can't
+      read it back, and closing the tab loses every choice. So:
+      - put the choices made so far in the download's *action* column,
+        and say on the page that it's the way to stop and come back;
+      - let the page open that spreadsheet with the same GEDCOM and
+        restore the choices (the CLI's `redact` already reads it);
+      - make the download easy to find at the top of the list, with the
+        count in its label ("Download all 549 as a spreadsheet");
+      - maybe a printable list for people who don't use Excel.
+      Don't keep choices in browser storage: that leaves note text on a
+      shared computer.
 - [ ] **Close rule gaps found while writing the web page** (29 Oct
       2026): *asylum* on its own, *drunk*, *state pen*, *served time*,
       *state hospital* all pass the standard preset. Weigh each against

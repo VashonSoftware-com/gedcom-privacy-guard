@@ -736,3 +736,19 @@ footer p {
     grid-template-columns: 8em 1fr 3em;
   }
 }
+
+.problem {
+  margin-top: 32px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.problem button {
+  padding: 8px 16px;
+}
+
+textarea.report {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  white-space: pre;
+}

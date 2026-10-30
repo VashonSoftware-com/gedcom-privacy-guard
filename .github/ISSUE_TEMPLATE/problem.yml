@@ -1,0 +1,26 @@
+name: Something went wrong
+description: An error, a wrong-looking result, or a page that stopped working.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for telling us. Please **don't** paste note text, names or
+        your review spreadsheet, and never attach your family file.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you saw instead.
+      placeholder: I chose my file, the bar stopped at "Checking the notes" and never finished.
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Problem report
+      description: >-
+        On the web page, press "Copy a problem report" (below the list, or
+        under an error) and paste it here. It holds no names, notes, places
+        or dates.
+      render: text

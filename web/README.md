@@ -32,6 +32,13 @@ their sha256. After changing the Python package, run it again.
 - `src/App.tsx`: the three steps (choose file, decide per note, save).
 - `src/Landing.tsx`: what's shown before a file is chosen: features,
   the "How it works" picture, offline and install help.
+- `scripts/doc-pages.ts`: at build time, turns the user-facing docs
+  (`../docs/what-it-can-do.md`, `help-wanted.md`, `exporting.md` and
+  others listed in `PAGES`) into pages at `/what-it-can-do/`,
+  `/help-us-test/` and so on, with the app's own stylesheet. The docs
+  stay the one source; links between them stay on the site, and links to
+  the rest of the repository go to GitHub. Not in `npm run dev`; use
+  `npx vite preview`.
 - `sw.js`: the service worker for offline use and install. The build
   (`vite.config.ts`) writes `dist/sw.js` with the list of every built
   file and a version hash; `npx vite preview` is the place to test it,

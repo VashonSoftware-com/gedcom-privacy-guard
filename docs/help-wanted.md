@@ -43,18 +43,21 @@ Ancestry, MyHeritage, FamilySearch and Reunion** (Legacy is covered).
 
 ## 2. Try it out (15 minutes)
 
-Our goal for version 1.0: someone who has never seen the tool installs
-it, scans an export and produces a cleaned file in **under 15 minutes,
-from the [README](../README.md) alone**.
+Our goal: someone who has never seen the tool opens it, checks an
+export and saves a cleaned file in **under 15 minutes**, with no help.
 
-1. Start a timer. Open the README and follow it from *Install*.
-2. Use your own export if you like (it stays on your computer) or the
-   sample tree, `sample_data/sample.ged`.
-3. Stop the timer when you have `cleaned.ged`, or at 15 minutes.
+1. Start a timer and open <https://gedcom.vashonsoftware.com>.
+2. Use your own export if you like (it never leaves your computer) or
+   our [sample tree](https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/sample_data/sample.ged)
+   (right-click, *Save link as*).
+3. Stop the timer when you have the cleaned file, or at 15 minutes.
 4. Tell us how it went in a
    [*Tried it*](https://github.com/VashonSoftware-com/gedcom-privacy-guard/issues/new?template=tried-it.yml)
    issue: how long it took, where you got stuck, and what didn't make
    sense. Share times and steps only, not your notes or the spreadsheet.
+
+Comfortable with a command line? Try the same with the
+[command-line version](../README.md) instead.
 
 ## 3. Tell us what it got wrong
 

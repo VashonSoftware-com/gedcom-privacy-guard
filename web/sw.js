@@ -30,9 +30,16 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
-  // Any page address opens the app; everything else is looked up as is.
-  const key = req.mode === "navigate" ? "/" : req;
+  // A page address that isn't one of ours opens the app.
   event.respondWith(
-    caches.open(CACHE).then((cache) => cache.match(key, { ignoreSearch: true }).then((hit) => hit ?? fetch(req))),
+    caches.open(CACHE).then(async (cache) => {
+      const hit = await cache.match(req, { ignoreSearch: true });
+      if (hit) return hit;
+      if (req.mode === "navigate") {
+        const home = await cache.match("/");
+        if (home) return fetch(req).catch(() => home);
+      }
+      return fetch(req);
+    }),
   );
 });

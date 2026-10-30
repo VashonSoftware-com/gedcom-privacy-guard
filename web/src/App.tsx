@@ -3,7 +3,6 @@ import type { RedactStats, Request, Response, Row, ScanResult } from "./engine/p
 import { Features, HowItWorks, Offline } from "./Landing";
 import { Progress } from "./Progress";
 
-const HELP = "https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs";
 const PROJECT = "https://github.com/VashonSoftware-com/gedcom-privacy-guard";
 
 type Choice = "keep" | "redact" | "mask" | "rewrite" | "privatize";
@@ -129,6 +128,8 @@ export default function App() {
     return c;
   }, [groups]);
 
+  // Once there's a scan, links open a new tab so the choices made so far aren't lost.
+  const away = scan ? { target: "_blank", rel: "noreferrer" } : {};
   const baseName = fileName.replace(/\.ged$/i, "");
   const downloadReport = () =>
     report &&
@@ -146,8 +147,11 @@ export default function App() {
             <strong>Your file never leaves this computer.</strong> Everything happens right here in your browser.
           </p>
           <nav>
-            <a href={`${HELP}/what-it-can-do.md`} target="_blank" rel="noreferrer">
+            <a href="/what-it-can-do/" {...away}>
               What it can and can't do
+            </a>
+            <a href="/help-us-test/" {...away}>
+              Help us test it
             </a>
             <a href={PROJECT} target="_blank" rel="noreferrer">
               Source code on GitHub
@@ -164,7 +168,7 @@ export default function App() {
             <h2>Step 1: Choose your family tree file</h2>
             <p>
               You need a GEDCOM file (it ends in <code>.ged</code>). Most family tree programs and Ancestry can save one.{" "}
-              <a href={`${HELP}/exporting.md`} target="_blank" rel="noreferrer">
+              <a href="/exporting/">
                 How to get your GEDCOM file
               </a>
             </p>
@@ -346,7 +350,7 @@ export default function App() {
                     <p>
                       Notes marked private are only hidden once the file goes back into Legacy and you export from
                       there. Don't upload this file straight to Ancestry or FamilySearch.{" "}
-                      <a href={`${HELP}/legacy.md`} target="_blank" rel="noreferrer">
+                      <a href="/legacy/" target="_blank" rel="noreferrer">
                         How to bring it back into Legacy
                       </a>
                     </p>

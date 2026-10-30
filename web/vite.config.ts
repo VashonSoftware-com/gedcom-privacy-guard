@@ -5,6 +5,7 @@ import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
+import { docPages } from "./scripts/doc-pages";
 
 // `vite preview` sends the same headers (including the CSP) as Cloudflare
 // Pages does from public/_headers, so local testing matches production.
@@ -31,7 +32,8 @@ function serviceWorker(): Plugin {
         .sort();
       const hash = createHash("sha256");
       for (const f of files) hash.update(f).update(readFileSync(join(dist, f)));
-      const urls = ["/", ...files.filter((f) => f !== "index.html").map((f) => `/${f}`)];
+      // A folder's index.html is served at the folder's address.
+      const urls = files.map((f) => "/" + f.replace(/(^|\/)index\.html$/, "$1"));
       writeFileSync(
         join(dist, "sw.js"),
         readFileSync(new URL("sw.js", import.meta.url), "utf8")
@@ -56,12 +58,14 @@ function commitSha(): string {
   }
 }
 
+const footer = { version: engineVersion, sha: commitSha(), date: new Date().toISOString().slice(0, 10) };
+
 export default defineConfig({
-  plugins: [react(), serviceWorker()],
+  plugins: [react(), docPages(footer), serviceWorker()],
   define: {
-    __APP_VERSION__: JSON.stringify(engineVersion),
-    __BUILD_SHA__: JSON.stringify(commitSha()),
-    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+    __APP_VERSION__: JSON.stringify(footer.version),
+    __BUILD_SHA__: JSON.stringify(footer.sha),
+    __BUILD_DATE__: JSON.stringify(footer.date),
   },
   // Pyodide finds its runtime files itself (from /pyodide/); don't pre-bundle it.
   optimizeDeps: { exclude: ["pyodide"] },

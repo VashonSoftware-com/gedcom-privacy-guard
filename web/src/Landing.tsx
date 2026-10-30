@@ -4,8 +4,6 @@
 
 import type { ReactElement } from "react";
 
-const DOCS = "https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs";
-
 export function Features() {
   return (
     <ul className="features">
@@ -199,7 +197,7 @@ export function HowItWorks() {
       <p>
         It looks for words, not meaning, so it can miss things ("she took her own life" isn't flagged; "suicide" is).
         It doesn't yet warn about living people; that's coming. Names, dates and places are never changed.{" "}
-        <a href={`${DOCS}/what-it-can-do.md`} target="_blank" rel="noreferrer">
+        <a href="/what-it-can-do/">
           What it can and can't do, in detail
         </a>
       </p>

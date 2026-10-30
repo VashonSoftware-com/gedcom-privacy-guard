@@ -537,3 +537,89 @@ footer p {
     animation: none;
   }
 }
+
+/* Pages made from the docs (scripts/doc-pages.ts). */
+.doc-head {
+  align-items: flex-start;
+}
+
+.logo.small {
+  width: 64px;
+}
+
+.site-name {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.site-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.doc h1 {
+  font-size: 1.8rem;
+}
+
+.doc h3 {
+  font-size: 1.1rem;
+  margin: 22px 0 6px;
+}
+
+.doc li {
+  margin: 4px 0;
+}
+
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  margin: 12px 0;
+}
+
+.doc th,
+.doc td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc th {
+  background: var(--card);
+}
+
+.doc code {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0 4px;
+  font-size: 0.9em;
+}
+
+.doc pre {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.doc pre code {
+  border: none;
+  padding: 0;
+}
+
+.doc blockquote {
+  max-height: none;
+  white-space: normal;
+  border-left: 4px solid var(--line);
+}
+
+@media (max-width: 640px) {
+  .doc table {
+    display: block;
+    overflow-x: auto;
+  }
+}

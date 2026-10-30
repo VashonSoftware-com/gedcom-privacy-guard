@@ -15,6 +15,11 @@ planned.
 
 ### Added
 
+- The help pages are now part of the web page: "What it can and can't
+  do", "Help us test it", getting your GEDCOM file, why your data is
+  safe, how it decides and Legacy users, made from `docs/` at build
+  time. Testers no longer land on GitHub. "Help us test it" now starts
+  from the web page rather than the command line.
 - `mask` action: replaces just the flagged words with `[removed]` and
   keeps the rest of the note. On the web page it's "Remove just the
   highlighted words", for one note or all of them.

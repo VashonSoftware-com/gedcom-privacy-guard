@@ -2,16 +2,31 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { RedactStats, Request, Response, Row, ScanResult } from "./engine/protocol";
 import { Features, HowItWorks, Offline } from "./Landing";
 import { Progress } from "./Progress";
+import { CategoryChart, categoryLabel } from "./Review";
 
 const PROJECT = "https://github.com/VashonSoftware-com/gedcom-privacy-guard";
 
 type Choice = "keep" | "redact" | "mask" | "rewrite" | "privatize";
 
-/** All matches in one text field: the page asks once per field. */
+const CHOICES: [Choice, string][] = [
+  ["keep", "Keep as is"],
+  ["mask", "Remove just the highlighted words"],
+  ["redact", "Remove the whole note"],
+  ["rewrite", "Rewrite it"],
+];
+const SEVERITIES = ["high", "medium", "low"];
+const PAGE_SIZE = 25;
+
+/** One card: every match in one piece of text. Identical text in several
+ * places (the same citation on a birth and a name, say) is one card, and
+ * the choice applies to every place. */
 interface Group {
-  line: number;
+  id: number;
+  lines: number[];
   text: string;
   rows: Row[];
+  severity: string;
+  categories: string[];
   choice: Choice;
   rewrite: string;
 }
@@ -24,13 +39,29 @@ function download(bytes: Uint8Array, name: string, type: string) {
 }
 
 function groupRows({ rows, texts }: ScanResult): Group[] {
-  const byLine = new Map<number, Group>();
+  const byText = new Map<string, Group>();
   for (const row of rows) {
-    const g = byLine.get(row.line) ?? { line: row.line, text: texts[row.line], rows: [], choice: "keep", rewrite: "" };
+    const text = texts[row.line];
+    const key = text.trim();
+    let g = byText.get(key);
+    if (!g) {
+      g = { id: row.line, lines: [], text, rows: [], severity: "low", categories: [], choice: "keep", rewrite: "" };
+      byText.set(key, g);
+    }
+    if (!g.lines.includes(row.line)) g.lines.push(row.line);
     g.rows.push(row);
-    byLine.set(row.line, g);
   }
-  return [...byLine.values()];
+  const groups = [...byText.values()];
+  for (const g of groups) {
+    g.severity = SEVERITIES.find((s) => g.rows.some((r) => r.severity === s)) ?? "low";
+    g.categories = [...new Set(g.rows.map((r) => r.category))];
+  }
+  return groups;
+}
+
+/** The person and place each line of a card's text was found in. */
+function places(g: Group): Row[] {
+  return g.lines.map((line) => g.rows.find((r) => r.line === line)!);
 }
 
 /** The whole note, with every flagged word or phrase highlighted. */
@@ -57,6 +88,10 @@ export default function App() {
   const [done, setDone] = useState<RedactStats | null>(null);
   const [dragging, setDragging] = useState(false);
   const [progress, setProgress] = useState<{ fraction: number; stage: string } | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
+  const [severity, setSeverity] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
   // The worker's handler is set once, so it reads the file name from here.
   const fileNameRef = useRef(fileName);
   fileNameRef.current = fileName;
@@ -77,6 +112,10 @@ export default function App() {
         setScan(msg.result);
         setReport(msg.report);
         setGroups(groupRows(msg.result));
+        setCategory(null);
+        setSeverity(null);
+        setQuery("");
+        setPage(0);
         setBusy(false);
       } else if (msg.type === "redacted") {
         setDone(msg.stats);
@@ -103,14 +142,35 @@ export default function App() {
     send({ type: "scan", bytes }, [bytes.buffer]);
   }
 
-  function update(line: number, patch: Partial<Group>) {
+  function update(id: number, patch: Partial<Group>) {
     setDone(null);
-    setGroups((gs) => gs.map((g) => (g.line === line ? { ...g, ...patch } : g)));
+    setGroups((gs) => gs.map((g) => (g.id === id ? { ...g, ...patch } : g)));
   }
 
-  function setAll(choice: Choice) {
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return groups.filter(
+      (g) =>
+        (!category || g.categories.includes(category)) &&
+        (!severity || g.severity === severity) &&
+        (!q || g.text.toLowerCase().includes(q) || g.rows.some((r) => r.name.toLowerCase().includes(q))),
+    );
+  }, [groups, category, severity, query]);
+  const pages = Math.max(1, Math.ceil(shown.length / PAGE_SIZE));
+  const onPage = shown.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const filtered = shown.length !== groups.length;
+  const choices: [Choice, string][] = legacy ? [...CHOICES, ["privatize", "Mark private (Legacy)"]] : CHOICES;
+
+  /** Set the choice for every card the filters are showing. */
+  function setShown(choice: Choice) {
     setDone(null);
-    setGroups((gs) => gs.map((g) => ({ ...g, choice })));
+    const ids = new Set(shown.map((g) => g.id));
+    setGroups((gs) => gs.map((g) => (ids.has(g.id) ? { ...g, choice } : g)));
+  }
+
+  function filter(set: () => void) {
+    set();
+    setPage(0);
   }
 
   const missingRewrite = groups.some((g) => g.choice === "rewrite" && !g.rewrite.trim());
@@ -124,7 +184,17 @@ export default function App() {
 
   const counts = useMemo(() => {
     const c = { high: 0, medium: 0, low: 0 } as Record<string, number>;
-    for (const g of groups) c[g.rows[0].severity] = (c[g.rows[0].severity] ?? 0) + 1;
+    for (const g of groups) c[g.severity] += 1;
+    return c;
+  }, [groups]);
+  const byCategory = useMemo(() => {
+    const c = new Map<string, number>();
+    for (const g of groups) for (const cat of g.categories) c.set(cat, (c.get(cat) ?? 0) + 1);
+    return [...c.entries()].sort((a, b) => b[1] - a[1]);
+  }, [groups]);
+  const decided = useMemo(() => {
+    const c = new Map<Choice, number>();
+    for (const g of groups) c.set(g.choice, (c.get(g.choice) ?? 0) + 1);
     return c;
   }, [groups]);
 
@@ -265,55 +335,125 @@ export default function App() {
                     </button>{" "}
                     to sort and filter it, by person, category or severity.
                   </p>
-                  <div className="bulk">
-                    Set every note to: <button onClick={() => setAll("keep")}>Keep</button>
-                    <button onClick={() => setAll("mask")}>Remove highlighted words</button>
-                    <button onClick={() => setAll("redact")}>Remove whole note</button>
+                  {byCategory.length > 1 && (
+                    <CategoryChart counts={byCategory} active={category} onPick={(c) => filter(() => setCategory(c))} />
+                  )}
+                  <div className="filters">
+                    <span>Show:</span>
+                    {[null, ...SEVERITIES].map((s) => (
+                      <button
+                        key={s ?? "all"}
+                        className={severity === s ? "on" : ""}
+                        aria-pressed={severity === s}
+                        onClick={() => filter(() => setSeverity(s))}
+                      >
+                        {s ? `${s[0].toUpperCase()}${s.slice(1)} (${counts[s]})` : "All"}
+                      </button>
+                    ))}
+                    <input
+                      type="search"
+                      placeholder="Find a name or word"
+                      aria-label="Find a name or word in the flagged notes"
+                      value={query}
+                      onChange={(e) => filter(() => setQuery(e.target.value))}
+                    />
+                  </div>
+                  <p className="showing">
+                    {filtered ? (
+                      <>
+                        Showing <strong>{shown.length}</strong> of {groups.length} notes
+                        {category && (
+                          <>
+                            {" "}
+                            flagged for <strong>{categoryLabel(category).toLowerCase()}</strong>
+                          </>
+                        )}
+                        .{" "}
+                        <button
+                          className="link"
+                          onClick={() =>
+                            filter(() => {
+                              setCategory(null);
+                              setSeverity(null);
+                              setQuery("");
+                            })
+                          }
+                        >
+                          Show all
+                        </button>
+                      </>
+                    ) : (
+                      <>Showing all {groups.length} notes.</>
+                    )}
+                  </p>
+                  {shown.length > 0 && (
+                    <div className="bulk">
+                      Set {filtered ? "these" : "all"} {shown.length} notes to:{" "}
+                      <button onClick={() => setShown("keep")}>Keep</button>
+                      <button onClick={() => setShown("mask")}>Remove highlighted words</button>
+                      <button onClick={() => setShown("redact")}>Remove whole note</button>
+                    </div>
+                  )}
+                  <p className="small">
+                    So far:{" "}
+                    {choices
+                      .filter(([c]) => decided.get(c))
+                      .map(([c, label]) => `${decided.get(c)} ${label.toLowerCase()}`)
+                      .join(" · ")}
+                    .{" "}
                     <label className="legacy">
                       <input type="checkbox" checked={legacy} onChange={(e) => setLegacy(e.target.checked)} /> I'll
                       bring the cleaned file back into Legacy Family Tree
                     </label>
-                  </div>
+                  </p>
                 </>
               )}
             </section>
 
-            {groups.map((g) => {
-              const who = g.rows[0];
+            {onPage.map((g) => {
+              const where = places(g);
+              const who = where[0];
               return (
-                <article key={g.line} className={`card sev-${who.severity}`}>
+                <article key={g.id} className={`card sev-${g.severity}`}>
                   <div className="who">
                     <strong>{who.name}</strong>
                     <span className="where">{who.found_in}</span>
-                    <span className="sev">{who.severity}</span>
+                    <span className="sev">{g.severity}</span>
                   </div>
                   <div className="life">
                     {[who.birth && `born ${who.birth}`, who.death && `died ${who.death}`].filter(Boolean).join(" · ")}
                   </div>
+                  {where.length > 1 && (
+                    <details className="also">
+                      <summary>
+                        The same text is in {where.length - 1} more {where.length === 2 ? "place" : "places"}. Your
+                        choice applies to all of them.
+                      </summary>
+                      <ul>
+                        {where.slice(1).map((r) => (
+                          <li key={r.line}>
+                            {r.name} <span className="where">{r.found_in}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
                   <blockquote>
                     <Highlighted text={g.text} terms={g.rows.map((r) => r.matched_term)} />
                   </blockquote>
                   <div className="why">
-                    Flagged for: {[...new Set(g.rows.map((r) => r.category.replace(/_/g, " ")))].join(", ")}
+                    Flagged for: {g.categories.map((c) => categoryLabel(c).toLowerCase()).join(", ")}
                   </div>
                   <div className="choices" role="radiogroup" aria-label={`What to do with this note about ${who.name}`}>
-                    {(
-                      [
-                        ["keep", "Keep as is"],
-                        ["mask", "Remove just the highlighted words"],
-                        ["redact", "Remove the whole note"],
-                        ["rewrite", "Rewrite it"],
-                        ...(legacy ? [["privatize", "Mark private (Legacy)"]] : []),
-                      ] as [Choice, string][]
-                    ).map(([value, label]) => (
+                    {choices.map(([value, label]) => (
                       <label key={value} className={g.choice === value ? "on" : ""}>
                         <input
                           type="radio"
-                          name={`c${g.line}`}
+                          name={`c${g.id}`}
                           checked={g.choice === value}
                           // Rewriting starts from the note itself, so only the bad bits need retyping.
                           onChange={() =>
-                            update(g.line, { choice: value, ...(value === "rewrite" && !g.rewrite && { rewrite: g.text }) })
+                            update(g.id, { choice: value, ...(value === "rewrite" && !g.rewrite && { rewrite: g.text }) })
                           }
                         />
                         {label}
@@ -324,12 +464,26 @@ export default function App() {
                     <textarea
                       placeholder="Type the new wording for this note"
                       value={g.rewrite}
-                      onChange={(e) => update(g.line, { rewrite: e.target.value })}
+                      onChange={(e) => update(g.id, { rewrite: e.target.value })}
                     />
                   )}
                 </article>
               );
             })}
+
+            {pages > 1 && (
+              <nav className="pager" aria-label="Pages of flagged notes">
+                <button disabled={page === 0} onClick={() => setPage(page - 1)}>
+                  ← Previous
+                </button>
+                <span>
+                  Page {page + 1} of {pages}
+                </span>
+                <button disabled={page >= pages - 1} onClick={() => setPage(page + 1)}>
+                  Next →
+                </button>
+              </nav>
+            )}
 
             <section className="finish">
               <h2>Step 3: Save your cleaned file</h2>

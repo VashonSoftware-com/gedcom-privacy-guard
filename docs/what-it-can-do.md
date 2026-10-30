@@ -5,6 +5,20 @@ here applies to both unless it says otherwise. For the word lists
 themselves, see [how-it-works.md](how-it-works.md); for privacy, see
 [safety.md](safety.md).
 
+## Where it stands today
+
+This is a **beta**, and it's a **first step toward a clean family
+history, not the whole job**. Expect some false alarms (an ordinary word
+that happens to be on a list) and some misses (anything said in other
+words, misspelled, or in another language). It has been tried on real
+exports from Legacy only; it doesn't yet warn about living people; it
+can't see into photos or attached documents; and a very large tree can
+take a minute or two, longer on an older computer or tablet. It cleans a
+*copy* of your file: the notes are still in your program and in any
+online tree you uploaded before. Use it to find the obvious problems
+quickly, then read your notes yourself, or ask someone who knows the
+family to.
+
 ## In short
 
 | It can | It can't (yet) |

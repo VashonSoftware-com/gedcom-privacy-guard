@@ -319,6 +319,13 @@ Docs, short and accurate (genealogists first, developers second):
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.
+- [ ] **"Copy a problem report" button** (John chose, 30 Oct 2026): plain
+      text the tester reads, then pastes into a GitHub issue themselves;
+      nothing is sent. Version and build, the exporting program and its
+      version (HEAD SOUR), encoding, counts (people, notes, flags per
+      category), warnings as codes with line numbers, unusual tags,
+      timing. No names, notes, places or dates. Add it to
+      help-wanted.md's "Try it out".
 - [ ] **Close rule gaps found while writing the web page** (29 Oct
       2026): *asylum* on its own, *drunk*, *state pen*, *served time*,
       *state hospital* all pass the standard preset. Weigh each against

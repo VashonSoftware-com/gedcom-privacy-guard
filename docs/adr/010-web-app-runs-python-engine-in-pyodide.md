@@ -102,5 +102,6 @@ checkable: the CSP and the network panel show that nothing is sent.
 3. [x] Tested in Chrome with `sample.ged` and a 192k-person export: no
    requests to other sites, no CSP violations.
 4. [ ] CI job that builds `web/`.
-5. [ ] Workers Builds project at `gedcom.vashonsoftware.com` (`web/wrangler.jsonc`).
+5. [x] Workers Builds project at `gedcom.vashonsoftware.com` (`web/wrangler.jsonc`),
+   live 29 Oct 2026.
 6. [ ] Add `vite-plugin-pwa` so the page works offline (from ADR-005).

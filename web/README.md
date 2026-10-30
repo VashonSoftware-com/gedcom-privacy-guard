@@ -35,5 +35,12 @@ their sha256. After changing the Python package, run it again.
 
 ## Deploy
 
-Cloudflare Pages, root directory `web`, build command `npm run build`,
-output `dist`, at `gedcom.vashonsoftware.com`.
+Cloudflare Workers with static assets (no Worker script), set up in
+`wrangler.jsonc`, at `gedcom.vashonsoftware.com`. Workers Builds is
+connected to GitHub: root directory `web`, build command
+`npm run build`, deploy command `npx wrangler deploy`. To check the
+built site with Cloudflare's own handling of `_headers`:
+
+```sh
+npx wrangler dev
+```

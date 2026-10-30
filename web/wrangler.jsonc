@@ -1,0 +1,13 @@
+// Cloudflare Workers, static assets only: no Worker script runs, so the
+// site is plain files plus the headers in public/_headers (ADR-010).
+// Workers Builds runs `npm run build`, then `npx wrangler deploy`.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gedcom-privacy-guard",
+  "compatibility_date": "2026-10-29",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [{ "pattern": "gedcom.vashonsoftware.com", "custom_domain": true }]
+}

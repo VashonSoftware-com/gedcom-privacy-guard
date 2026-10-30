@@ -152,7 +152,7 @@ Testers can't use a terminal, so the web version moved ahead of the
 announcement (John, 29 Oct 2026; ADR-010): it runs the Python engine
 in the browser with Pyodide and works end to end locally, including a
 192k-person export (~95 s). Next: deploy it to
-`gedcom.vashonsoftware.com` (Cloudflare Pages), check the live page
+`gedcom.vashonsoftware.com` (Cloudflare Workers static assets), check the live page
 against Vashon Software's
 [website evaluation criteria](https://github.com/VashonSoftware-com/VashonSoftware.com/blob/main/website-evaluation-criteria.md),
 then announce to testers with that link instead of `pipx`.

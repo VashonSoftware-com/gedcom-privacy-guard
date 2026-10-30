@@ -38,8 +38,11 @@ Constraints:
   `connect-src 'self'`, no remote scripts, and only
   `'wasm-unsafe-eval'` (to compile WebAssembly, not to eval
   JavaScript).
-- Hosting: Cloudflare Pages at `gedcom.vashonsoftware.com`. Static
-  files only, free plan.
+- Hosting: **Cloudflare Workers with static assets** (no Worker
+  script) at `gedcom.vashonsoftware.com`, built by Workers Builds from
+  GitHub; config in `web/wrangler.jsonc`. Free plan. This replaces
+  ADR-005's Cloudflare Pages: Cloudflare now steers new sites to
+  Workers, which serves the same `_headers` file (John, 29 Oct 2026).
 
 This replaces ADR-004's "two codebases, no shared code" and ADR-005's
 action item to port the engine to TypeScript. The JSX proof of concept
@@ -99,5 +102,5 @@ checkable: the CSP and the network panel show that nothing is sent.
 3. [x] Tested in Chrome with `sample.ged` and a 192k-person export: no
    requests to other sites, no CSP violations.
 4. [ ] CI job that builds `web/`.
-5. [ ] Cloudflare Pages project at `gedcom.vashonsoftware.com`.
+5. [ ] Workers Builds project at `gedcom.vashonsoftware.com` (`web/wrangler.jsonc`).
 6. [ ] Add `vite-plugin-pwa` so the page works offline (from ADR-005).

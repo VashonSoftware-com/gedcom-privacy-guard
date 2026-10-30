@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { RedactStats, Request, Response, Row, ScanResult } from "./engine/protocol";
+import { Features, HowItWorks, Offline } from "./Landing";
 
 const HELP = "https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs";
 const PROJECT = "https://github.com/VashonSoftware-com/gedcom-privacy-guard";
@@ -126,13 +127,26 @@ export default function App() {
   return (
     <div className="page">
       <header>
-        <h1>GEDCOM Privacy Guard</h1>
-        <p className="tagline">
-          Check your family tree file for sensitive notes before you upload or share it.
-          <br />
-          <strong>Your file never leaves this computer.</strong> Everything happens right here in your browser.
-        </p>
+        <img className="logo" src="/logo.svg" alt="" />
+        <div>
+          <h1>GEDCOM Privacy Guard</h1>
+          <p className="tagline">
+            Check your family tree file for sensitive notes before you upload or share it.
+            <br />
+            <strong>Your file never leaves this computer.</strong> Everything happens right here in your browser.
+          </p>
+          <nav>
+            <a href={`${HELP}/what-it-can-do.md`} target="_blank" rel="noreferrer">
+              What it can and can't do
+            </a>
+            <a href={PROJECT} target="_blank" rel="noreferrer">
+              Source code on GitHub
+            </a>
+          </nav>
+        </div>
       </header>
+
+      {!scan && <Features />}
 
       {!scan && (
         <section>
@@ -173,6 +187,13 @@ export default function App() {
       )}
 
       {error && <div className="error">{error}</div>}
+
+      {!scan && !busy && (
+        <>
+          <HowItWorks />
+          <Offline />
+        </>
+      )}
 
       {scan && (
         <>
@@ -318,7 +339,7 @@ export default function App() {
 
       <footer>
         Free and open source from{" "}
-        <a href={PROJECT} target="_blank" rel="noreferrer">
+        <a href="https://vashonsoftware.com" target="_blank" rel="noreferrer">
           Vashon Software
         </a>
         . Beta: please{" "}

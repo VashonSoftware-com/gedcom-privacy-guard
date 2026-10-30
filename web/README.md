@@ -30,6 +30,17 @@ their sha256. After changing the Python package, run it again.
   `gedcom_privacy_guard/web.py` off the main thread.
 - `src/engine/protocol.ts`: messages between the page and the worker.
 - `src/App.tsx`: the three steps (choose file, decide per note, save).
+- `src/Landing.tsx`: what's shown before a file is chosen: features,
+  the "How it works" picture, offline and install help.
+- `sw.js`: the service worker for offline use and install. The build
+  (`vite.config.ts`) writes `dist/sw.js` with the list of every built
+  file and a version hash; `npx vite preview` is the place to test it,
+  as `npm run dev` doesn't register it.
+- `public/logo.svg`: the bulldog. `favicon.svg` and `icon.svg` are
+  copies with a different `viewBox` (and a background, for `icon.svg`);
+  the PNG icons were made from `icon.svg` with
+  `magick -background none -density 400 icon.svg -resize 512x512 icon-512.png`.
+  Edit the logo, then remake the others.
 - `reference/`: the original JSX proof of concept, kept as a design
   reference only.
 

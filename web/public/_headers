@@ -13,3 +13,8 @@
 # copy each visit. An unchanged file still comes from the cache (304).
 /pyodide/*
   Cache-Control: no-cache
+
+# The service worker must be checked on every visit, or a new release
+# would wait for the browser's cache to expire.
+/sw.js
+  Cache-Control: no-cache

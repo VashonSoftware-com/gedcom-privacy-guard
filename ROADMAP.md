@@ -307,7 +307,8 @@ Docs, short and accurate (genealogists first, developers second):
       Python engine runs in the browser with Pyodide, every file is
       served from our own site, and a strict CSP blocks other network
       calls (29 Oct 2026). Live at <https://gedcom.vashonsoftware.com>
-      (29 Oct 2026). Left: offline support (PWA); try it on an iPad.
+      (29 Oct 2026). Offline support and install (PWA), logo and
+      landing content added 29 Oct 2026. Left: try it on an iPad.
 - [ ] **Check the live page** against Vashon Software's
       [website evaluation criteria](https://github.com/VashonSoftware-com/VashonSoftware.com/blob/main/website-evaluation-criteria.md):
       PageSpeed Insights (performance, accessibility, best practices,
@@ -318,6 +319,15 @@ Docs, short and accurate (genealogists first, developers second):
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.
+- [ ] **Close rule gaps found while writing the web page** (29 Oct
+      2026): *asylum* on its own, *drunk*, *state pen*, *served time*,
+      *state hospital* all pass the standard preset. Weigh each against
+      false alarms (*political asylum*, *drunk driver* in a news clip).
+- [ ] **Flag offensive or planted text** (John, 29 Oct 2026): a
+      category for slurs and vulgar words (pranks or old bigotry in
+      notes), and one for embedded HTML, `<script>`, `javascript:` and
+      web links, which some family-tree websites might display. Needs a
+      word list with a clear license, and a decision on default preset.
 - [ ] **False positive to exception in one step**: mark a report row and
       the rules file learns it.
 - [ ] **Consider fuzzy matching**, so misspellings common in old notes

@@ -55,6 +55,7 @@ export default function App() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [legacy, setLegacy] = useState(false);
   const [done, setDone] = useState<RedactStats | null>(null);
+  const [dragging, setDragging] = useState(false);
   // The worker's handler is set once, so it reads the file name from here.
   const fileNameRef = useRef(fileName);
   fileNameRef.current = fileName;
@@ -158,10 +159,19 @@ export default function App() {
             </a>
           </p>
           <label
-            className={`drop ${!ready || busy ? "disabled" : ""}`}
-            onDragOver={(e) => e.preventDefault()}
+            className={`drop ${!ready || busy ? "disabled" : ""} ${dragging ? "over" : ""}`}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={(e) => {
+              // Moving over the text inside the box fires this too; only
+              // leaving the box itself counts.
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragging(false);
+            }}
             onDrop={(e) => {
               e.preventDefault();
+              setDragging(false);
               const f = e.dataTransfer.files[0];
               if (f && ready && !busy) openFile(f);
             }}
@@ -170,6 +180,8 @@ export default function App() {
               <span>{status} (the first visit takes a little longer)</span>
             ) : busy ? (
               <span>Checking {fileName}… large trees can take a minute.</span>
+            ) : dragging ? (
+              <span className="big">Drop it here</span>
             ) : (
               <>
                 <span className="big">Click here to choose your file</span>

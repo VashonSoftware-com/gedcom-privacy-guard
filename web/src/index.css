@@ -229,6 +229,12 @@ a,
   color: var(--green);
 }
 
+.drop.over {
+  border-color: var(--green);
+  border-style: solid;
+  background: #eaf1ec;
+}
+
 .drop.disabled {
   cursor: progress;
   opacity: 0.75;

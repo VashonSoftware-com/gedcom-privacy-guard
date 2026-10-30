@@ -1,9 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="152" viewBox="0 18 200 202" role="img" aria-label="A bulldog guarding a family crest">
   <title>GEDCOM Privacy Guard</title>
   <defs>
+    <!-- The chest shield: Cornelisons.com's own drawing (free to use) of
+         "Ermine, a chevron sable between three roundels gules", the arms
+         crest sellers offer under the name. Not a claim to genuine arms. -->
     <clipPath id="shield">
-      <path d="M78 146h44v22c0 15-10 24-22 29-12-5-22-14-22-29z"/>
+      <path d="M6 4h52v26c0 16-11 25-26 30C17 55 6 46 6 30z"/>
     </clipPath>
+    <g id="ermine" fill="#222">
+      <circle cx="0" cy="-2.4" r=".45"/>
+      <circle cx="-.7" cy="-1.8" r=".4"/>
+      <circle cx=".7" cy="-1.8" r=".4"/>
+      <path d="M0-1.7C.35-.5.55 1 .7 2.4L.3 2 0 2.7-.3 2-.7 2.4C-.55 1-.35-.5 0-1.7z"/>
+    </g>
+    <pattern id="ermines" x="28.5" y="0" width="7" height="12" patternUnits="userSpaceOnUse">
+      <use href="#ermine" x="3.5" y="3"/>
+      <use href="#ermine" x="0" y="9"/>
+      <use href="#ermine" x="7" y="9"/>
+    </pattern>
   </defs>
   <g stroke="#20221f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
     <!-- body and legs -->
@@ -14,15 +28,18 @@
     <ellipse cx="71" cy="210" rx="20" ry="8" fill="#f6efe3"/>
     <ellipse cx="129" cy="210" rx="20" ry="8" fill="#f6efe3"/>
     <path d="M65 206v6M73 206v6M127 206v6M135 206v6" stroke-width="2.5"/>
-    <!-- a made-up family crest on the chest -->
-    <path d="M78 146h44v22c0 15-10 24-22 29-12-5-22-14-22-29z" fill="#2c4a3e"/>
-    <g clip-path="url(#shield)" stroke="none" fill="#e2b73d">
-      <path d="M70 186l30-22 30 22v9l-30-22-30 22z"/>
-      <circle cx="89" cy="156" r="4"/>
-      <circle cx="111" cy="156" r="4"/>
-      <circle cx="100" cy="186" r="4"/>
+    <!-- the family shield on the chest (64-unit drawing scaled to fit) -->
+    <g transform="translate(72.9 142.6) scale(.846)">
+      <g clip-path="url(#shield)" stroke="none">
+        <rect width="64" height="64" fill="#fff"/>
+        <rect width="64" height="64" fill="url(#ermines)" opacity=".4"/>
+        <path d="M32 21L-2 55v14L32 35l34 34V55z" fill="#333"/>
+        <circle cx="17" cy="16" r="7.5" fill="#d61f1f"/>
+        <circle cx="47" cy="16" r="7.5" fill="#d61f1f"/>
+        <circle cx="32" cy="47" r="7.5" fill="#d61f1f"/>
+      </g>
+      <path d="M6 4h52v26c0 16-11 25-26 30C17 55 6 46 6 30z" fill="none" stroke-width="3.5"/>
     </g>
-    <path d="M78 146h44v22c0 15-10 24-22 29-12-5-22-14-22-29z" fill="none" stroke-width="3"/>
     <!-- head: wide and flat -->
     <path d="M100 30c58 0 82 24 80 54-2 30-32 44-80 44s-78-14-80-44c-2-30 22-54 80-54z" fill="#d9a66b"/>
     <!-- folded rose ears -->

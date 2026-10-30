@@ -1,4 +1,4 @@
-# Cloudflare Pages response headers. The CSP is the browser-enforced
+# Cloudflare response headers (Workers static assets read this file). The CSP is the browser-enforced
 # version of "your file never leaves this computer": the page may only
 # talk to its own site. 'wasm-unsafe-eval' lets Pyodide compile Python's
 # WebAssembly; it does not allow JavaScript eval.

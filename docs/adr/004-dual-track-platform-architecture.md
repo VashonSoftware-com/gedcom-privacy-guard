@@ -1,6 +1,6 @@
 # ADR-004: Dual-track architecture — Python CLI + browser-based web app
 
-**Status:** Accepted
+**Status:** Accepted; engine part superseded by [ADR-010](010-web-app-runs-python-engine-in-pyodide.md)
 **Date:** 2026-07-18
 **Deciders:** Project owner
 

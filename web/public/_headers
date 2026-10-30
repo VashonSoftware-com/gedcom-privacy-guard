@@ -1,0 +1,15 @@
+# Cloudflare Pages response headers. The CSP is the browser-enforced
+# version of "your file never leaves this computer": the page may only
+# talk to its own site. 'wasm-unsafe-eval' lets Pyodide compile Python's
+# WebAssembly; it does not allow JavaScript eval.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# File names here stay the same across releases (the wheel keeps its
+# version number between commits), so browsers must check for a newer
+# copy each visit. An unchanged file still comes from the cache (304).
+/pyodide/*
+  Cache-Control: no-cache

@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -41,8 +42,27 @@ function serviceWorker(): Plugin {
   };
 }
 
+// What the footer shows. Workers Builds sets WORKERS_CI_COMMIT_SHA; a
+// local build asks git.
+const engineVersion = readFileSync(new URL("../gedcom_privacy_guard/__init__.py", import.meta.url), "utf8").match(
+  /__version__ = "(.+?)"/,
+)![1];
+function commitSha(): string {
+  if (process.env.WORKERS_CI_COMMIT_SHA) return process.env.WORKERS_CI_COMMIT_SHA;
+  try {
+    return execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+  } catch {
+    return "unknown";
+  }
+}
+
 export default defineConfig({
   plugins: [react(), serviceWorker()],
+  define: {
+    __APP_VERSION__: JSON.stringify(engineVersion),
+    __BUILD_SHA__: JSON.stringify(commitSha()),
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+  },
   // Pyodide finds its runtime files itself (from /pyodide/); don't pre-bundle it.
   optimizeDeps: { exclude: ["pyodide"] },
   worker: { format: "es" },

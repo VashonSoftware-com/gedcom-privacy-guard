@@ -338,15 +338,30 @@ export default function App() {
       )}
 
       <footer>
-        Free and open source from{" "}
-        <a href="https://vashonsoftware.com" target="_blank" rel="noreferrer">
-          Vashon Software
-        </a>
-        . Beta: please{" "}
-        <a href={`${PROJECT}/issues/new/choose`} target="_blank" rel="noreferrer">
-          tell us
-        </a>{" "}
-        what worked and what didn't. Never send us your real family file.
+        <p className="footer-copy">
+          Free and{" "}
+          <a href={PROJECT} target="_blank" rel="noreferrer">
+            open source
+          </a>
+          . Beta: please{" "}
+          <a href={`${PROJECT}/issues/new/choose`} target="_blank" rel="noreferrer">
+            tell us
+          </a>{" "}
+          what worked and what didn't. Never send us your real family file.
+          <br />
+          <span className="footer-version">
+            Version {__APP_VERSION__} · build{" "}
+            <a href={`${PROJECT}/commit/${__BUILD_SHA__}`} target="_blank" rel="noreferrer">
+              {__BUILD_SHA__.slice(0, 7)}
+            </a>{" "}
+            · {__BUILD_DATE__}
+          </span>
+        </p>
+        <p className="footer-credit">
+          <a className="site-credit-link" href="https://vashonsoftware.com" target="_blank" rel="noreferrer">
+            Site by Vashon Software
+          </a>
+        </p>
       </footer>
     </div>
   );

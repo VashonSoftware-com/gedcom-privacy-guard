@@ -399,6 +399,72 @@ textarea {
 
 footer {
   margin-top: 48px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+footer p {
+  margin: 0;
+}
+
+.footer-version {
+  white-space: nowrap;
+}
+
+/* "Site by Vashon Software", as on Vashon Software's other sites. */
+.site-credit-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transition: all 0.5s ease;
+  color: #4f46e5;
+  text-decoration: none;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transform-origin: center;
+}
+
+.site-credit-link:hover {
+  transform: scale(1.2) rotate(5deg);
+  filter: hue-rotate(180deg) drop-shadow(0 0 8px rgba(102, 126, 234, 0.8));
+  animation: site-credit-color-swirl 2s infinite;
+}
+
+@keyframes site-credit-color-swirl {
+  0% {
+    filter: hue-rotate(0deg) drop-shadow(0 0 8px rgba(102, 126, 234, 0.8));
+  }
+  25% {
+    filter: hue-rotate(90deg) drop-shadow(0 0 8px rgba(234, 102, 126, 0.8));
+  }
+  50% {
+    filter: hue-rotate(180deg) drop-shadow(0 0 8px rgba(126, 234, 102, 0.8));
+  }
+  75% {
+    filter: hue-rotate(270deg) drop-shadow(0 0 8px rgba(234, 126, 102, 0.8));
+  }
+  100% {
+    filter: hue-rotate(360deg) drop-shadow(0 0 8px rgba(102, 126, 234, 0.8));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-credit-link,
+  .site-credit-link:hover {
+    transition: none;
+    transform: none;
+    animation: none;
+  }
+}
+
+.footer-credit {
+  margin-left: auto;
 }

@@ -56,6 +56,7 @@ function buildOwnWheel() {
   }
   const wheel = readdirSync(OUT).find((f) => f.startsWith("gedcom_privacy_guard-") && f.endsWith(".whl") && !before.has(f));
   if (!wheel) throw new Error("Building the gedcom_privacy_guard wheel produced no file");
+  rmSync(join(OUT, ".gitignore"), { force: true }); // uv build leaves one; don't publish it
   return wheel;
 }
 

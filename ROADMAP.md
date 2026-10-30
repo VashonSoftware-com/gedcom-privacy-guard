@@ -152,8 +152,10 @@ Testers can't use a terminal, so the web version moved ahead of the
 announcement (John, 29 Oct 2026; ADR-010): it runs the Python engine
 in the browser with Pyodide and works end to end locally, including a
 192k-person export (~95 s). Next: deploy it to
-`gedcom.vashonsoftware.com` (Cloudflare Pages), then announce to
-testers with that link instead of `pipx`.
+`gedcom.vashonsoftware.com` (Cloudflare Pages), check the live page
+against Vashon Software's
+[website evaluation criteria](https://github.com/VashonSoftware-com/VashonSoftware.com/blob/main/website-evaluation-criteria.md),
+then announce to testers with that link instead of `pipx`.
 
 ## P0 — Before the repo goes public
 
@@ -305,6 +307,13 @@ Docs, short and accurate (genealogists first, developers second):
       served from our own site, and a strict CSP blocks other network
       calls (29 Oct 2026). Left: deploy to `gedcom.vashonsoftware.com`;
       offline support (PWA); try it on an iPad.
+- [ ] **Check the live page** against Vashon Software's
+      [website evaluation criteria](https://github.com/VashonSoftware-com/VashonSoftware.com/blob/main/website-evaluation-criteria.md):
+      PageSpeed Insights (performance, accessibility, best practices,
+      SEO), securityheaders.com and Mozilla Observatory (aim for A+;
+      HSTS is set in Cloudflare, the rest in `web/public/_headers`),
+      SSL Labs and websitecarbon.com. Add score badges to the README,
+      as Mesh101 does, once they're earned.
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.

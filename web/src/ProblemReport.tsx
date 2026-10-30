@@ -89,6 +89,22 @@ export function ProblemReport(input: ReportInput) {
         how many notes were flagged), then paste it into a problem report on GitHub. It has no names, notes, places or
         dates, and nothing is sent from here: you see every word before you paste it.
       </p>
+      <details className="contents">
+        <summary>What's in the report?</summary>
+        <ul>
+          <li>This page's version, and your browser and computer type</li>
+          <li>Which program made your file, and its version</li>
+          <li>How the file is stored: its size, character set and line endings</li>
+          <li>How many people, families, sources and other records it has</li>
+          <li>The names of any special tags your program added (like _UID)</li>
+          <li>How many notes were flagged, in each category and severity</li>
+          <li>Any warnings or error, which give line numbers but never the text on that line</li>
+          <li>How long the check took</li>
+        </ul>
+        <p>
+          <strong>Never included:</strong> names, notes, places, dates, your file's name, or anything you typed.
+        </p>
+      </details>
       <button onClick={copy}>Copy a problem report</button>
       {text && (
         <>

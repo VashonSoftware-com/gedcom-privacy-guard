@@ -750,5 +750,19 @@ footer p {
 textarea.report {
   font-family: ui-monospace, Consolas, monospace;
   font-size: 0.8rem;
-  white-space: pre;
+  white-space: pre-wrap;
+}
+
+.problem details.contents {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+}
+
+.problem details.contents summary {
+  cursor: pointer;
+  color: var(--green);
+}
+
+.problem details.contents ul {
+  margin: 8px 0;
 }

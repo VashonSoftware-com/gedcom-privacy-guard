@@ -13,6 +13,17 @@ planned.
 
 ## [Unreleased]
 
+### Added
+
+- Web page: a bulldog logo wearing the Cornelisons.com shield (that
+  site's own drawing of arms sold under the name; no claim to be
+  genuine), app icons, a list of what the tool offers, a "How it works"
+  picture of what gets flagged, and links to GitHub and to a new
+  [what-it-can-do.md](docs/what-it-can-do.md).
+- Web page works offline and can be installed as an app: a service
+  worker keeps the page's own files (never the user's tree), generated
+  at build time with the list of files to keep.
+
 ## [0.4.0b1] - 2026-10-29
 
 First public release, as a beta for testers. Earlier versions were

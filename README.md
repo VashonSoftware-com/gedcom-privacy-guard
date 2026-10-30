@@ -1,10 +1,18 @@
 # GEDCOM Privacy Guard
 
+![The GEDCOM Privacy Guard bulldog][logo]
+
 Before you upload a family tree, find the notes that shouldn't go with
 it: mental illness, addiction, crime, family rumors, ID numbers, phone
 numbers and your own contact details. It works with a GEDCOM export from
 any genealogy program (Legacy, RootsMagic, Family Tree Maker, Gramps,
 Ancestry…).
+
+**No install needed:** use it in your browser at
+<https://gedcom.vashonsoftware.com>. Your file stays on your computer,
+and the page works offline. The rest of this page is about the
+command-line version, which adds your own word lists and an Excel
+review.
 
 It **flags, you decide.** Your review goes in a spreadsheet, and only the
 changes you approve are written, to a *new* file. Your original export is
@@ -79,11 +87,13 @@ the network blocked. Turn off Wi-Fi and it works the same.
 - **It doesn't touch names, dates or places.** A garbled place came from
   the program that made the file.
 - **It doesn't yet check for living people.** That's planned.
+- [Everything it can and can't do](https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/what-it-can-do.md).
 - A private online tree still shows every note to the people you invite
   ([what a private tree doesn't cover](https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/exporting.md#what-a-private-tree-doesnt-cover)).
 
 ## More
 
+[What it can do] ·
 [How it works] ·
 [Why it's safe] ·
 [Help wanted] ·
@@ -97,6 +107,8 @@ the network blocked. Turn off Wi-Fi and it works the same.
 
 MIT licensed. A [Vashon Software](https://vashonsoftware.com) project.
 
+[logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/public/logo.svg
+[What it can do]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/what-it-can-do.md
 [How it works]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/how-it-works.md
 [Why it's safe]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/safety.md
 [Help wanted]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/help-wanted.md

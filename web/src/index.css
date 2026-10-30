@@ -26,8 +26,156 @@ body {
 }
 
 header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
   border-bottom: 2px solid var(--ink);
   margin-bottom: 28px;
+  padding-bottom: 12px;
+}
+
+.logo {
+  width: 140px;
+  flex: none;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  font-size: 0.9rem;
+}
+
+/* The selling points, big enough to read at a glance. */
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.features li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--green);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: var(--muted);
+}
+
+.features strong {
+  display: block;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* The picture: tree file, guard, cleaned copy, and what gets turned away. */
+.flow {
+  margin: 0;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 30%;
+  font-weight: bold;
+}
+
+.filepic {
+  width: 72px;
+}
+
+.guard img {
+  width: 130px;
+}
+
+.flow-arrow {
+  font-size: 2.2rem;
+  color: var(--green);
+}
+
+.ousted-title {
+  display: block;
+  margin: 18px 0 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.ousted {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.ousted li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 2px dashed var(--red);
+  border-radius: 6px;
+  background: #fbeaea;
+}
+
+.ousted svg {
+  width: 44px;
+  flex: none;
+}
+
+.ousted strong,
+.ousted em {
+  display: block;
+}
+
+.ousted em {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.steps li {
+  margin: 6px 0;
+}
+
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .flow-row {
+    flex-direction: column;
+  }
+
+  .flow-step {
+    width: auto;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
 }
 
 h1 {

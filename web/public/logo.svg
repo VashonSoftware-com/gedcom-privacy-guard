@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="44 58 424 424" role="img" aria-label="An orca leaping across a shield, over a small family shield">
+  <title>GEDCOM Privacy Guard</title>
+  <defs>
+    <!-- The family shield is Cornelisons.com's own drawing (free to use) of
+         "Ermine, a chevron sable between three roundels gules", the arms
+         crest sellers offer under the name. Not a claim to genuine arms. -->
+    <clipPath id="family">
+      <path d="M6 4h52v26c0 16-11 25-26 30C17 55 6 46 6 30z"/>
+    </clipPath>
+    <g id="ermine" fill="#222">
+      <circle cx="0" cy="-2.4" r=".45"/>
+      <circle cx="-.7" cy="-1.8" r=".4"/>
+      <circle cx=".7" cy="-1.8" r=".4"/>
+      <path d="M0-1.7C.35-.5.55 1 .7 2.4L.3 2 0 2.7-.3 2-.7 2.4C-.55 1-.35-.5 0-1.7z"/>
+    </g>
+    <pattern id="ermines" x="28.5" y="0" width="7" height="12" patternUnits="userSpaceOnUse">
+      <use href="#ermine" x="3.5" y="3"/>
+      <use href="#ermine" x="0" y="9"/>
+      <use href="#ermine" x="7" y="9"/>
+    </pattern>
+  </defs>
+
+  <!-- the big shield -->
+  <path d="M96 64h320v190c0 110-72 182-160 220-88-38-160-110-160-220z" fill="#152a41" stroke="#d6b25e" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M114 82h284v172c0 98-64 162-142 198-78-36-142-100-142-198z" fill="none" stroke="#d6b25e" stroke-width="2.5" opacity=".7"/>
+
+  <!-- the orca, leaping from lower left to upper right -->
+  <g transform="translate(248 232) rotate(-32) scale(1.08 1.32)">
+    <!-- tail flukes -->
+    <path d="M-138-4c-14-10-30-26-44-30 6 14 10 26 22 34-12 8-16 20-22 34 14-4 30-20 44-30z" fill="#111417" stroke="#f3ead2" stroke-width="3" stroke-linejoin="round"/>
+    <!-- body -->
+    <path d="M152 2c-6-26-50-44-112-44-58 0-118 20-182 38v12c64 18 124 38 182 38 64 0 106-16 112-44z" fill="#111417" stroke="#f3ead2" stroke-width="3" stroke-linejoin="round"/>
+    <!-- dorsal fin -->
+    <path d="M6-40c10-34 26-66 44-84-2 34-4 62 14 86z" fill="#111417" stroke="#f3ead2" stroke-width="3" stroke-linejoin="round"/>
+    <!-- grey saddle patch behind the fin -->
+    <path d="M-44-30c20-6 46-8 62-4-18 5-42 8-62 4z" fill="#8c98a4"/>
+    <!-- white belly and flank -->
+    <path d="M151 4c-14 24-60 36-112 36-34 0-62-8-84-18 34 2 66 2 98-2 40-6 70-10 98-16z" fill="#f3ead2"/>
+    <path d="M-92 14c18-16 46-22 70-16-20 10-46 18-70 16z" fill="#f3ead2"/>
+    <!-- eye patch and eye -->
+    <path d="M70-20c14-8 34-8 44-2-14 6-30 6-44 2z" fill="#f3ead2"/>
+    <circle cx="124" cy="-8" r="3" fill="#f3ead2"/>
+    <!-- mouth -->
+    <path d="M152 4c-14 4-30 4-44 0" fill="none" stroke="#f3ead2" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- pectoral fin -->
+    <path d="M62 30c-6 22-20 42-40 54 30-2 56-24 70-50z" fill="#111417" stroke="#f3ead2" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+
+  <!-- the family shield, low on the big one -->
+  <g transform="translate(206 318) scale(1.56)">
+    <g clip-path="url(#family)">
+      <rect width="64" height="64" fill="#fff"/>
+      <rect width="64" height="64" fill="url(#ermines)" opacity=".45"/>
+      <path d="M32 21L-2 55v14L32 35l34 34V55z" fill="#222"/>
+      <circle cx="17" cy="16" r="7.5" fill="#c8102e"/>
+      <circle cx="47" cy="16" r="7.5" fill="#c8102e"/>
+      <circle cx="32" cy="47" r="7.5" fill="#c8102e"/>
+    </g>
+    <path d="M6 4h52v26c0 16-11 25-26 30C17 55 6 46 6 30z" fill="none" stroke="#d6b25e" stroke-width="2.6"/>
+  </g>
+
+</svg>

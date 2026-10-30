@@ -36,20 +36,19 @@ their sha256. After changing the Python package, run it again.
   (`vite.config.ts`) writes `dist/sw.js` with the list of every built
   file and a version hash; `npx vite preview` is the place to test it,
   as `npm run dev` doesn't register it.
-- `brand/orca-1024.webp`: the logo master, an orca over the
-  Cornelisons.com shield. It began as a Canva design; the lettering and
-  rounded corners were removed so it works as a square app icon. Make
-  the page's copies from it:
+- `brand/`: the logo, drawn as SVG: an orca leaping across a navy
+  shield, with the Cornelisons.com family shield below it.
+  `crest-text.svg` adds a ribbon with the name (for the README and
+  anywhere it stands alone); `crest.svg` is the same without the ribbon;
+  `icon.svg` puts it on the page colour, square, for app icons.
+  `public/logo.svg` and `public/favicon.svg` are copies of `crest.svg`.
+  After changing the crest, copy it over and remake the PNG icons:
 
   ```sh
-  magick brand/orca-1024.webp -resize 320x320 -quality 85 public/logo.webp
-  magick brand/orca-1024.webp -blur 0x0.6 -resize 512x512 -strip -colors 256 public/icon-512.png
+  magick -background none -density 300 brand/icon.svg -resize 512x512 -strip public/icon-512.png
   # likewise icon-192.png (192) and apple-touch-icon.png (180)
-  magick brand/orca-1024.webp -crop 700x700+175+70 +repage -resize 64x64 -colors 128 public/favicon.png
   ```
 
-  The favicon is cropped to the orca and shield, which stay readable
-  in a browser tab.
 - `reference/`: the original JSX proof of concept, kept as a design
   reference only.
 

@@ -22,9 +22,10 @@ planned.
   file is checked; "Rewrite it" starts from the note's own text; the
   Excel download is offered at the top of a long list; dropping a link
   instead of a file says so.
-- Web page: a logo (an orca over the Cornelisons.com shield, that
-  site's own version of arms sold under the name, with no claim to be
-  genuine), app icons, a list of what the tool offers, a "How it works"
+- Web page: a logo drawn as SVG, an orca leaping across a navy shield
+  over the Cornelisons.com family shield (that site's own version of
+  arms sold under the name, with no claim to be genuine), with and
+  without a name ribbon; app icons, a list of what the tool offers, a "How it works"
   picture of what gets flagged, and links to GitHub and to a new
   [what-it-can-do.md](docs/what-it-can-do.md).
 - Web page works offline and can be installed as an app: a service

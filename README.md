@@ -1,6 +1,6 @@
 # GEDCOM Privacy Guard
 
-![The GEDCOM Privacy Guard crest: an orca over a small family shield][logo]
+![The GEDCOM Privacy Guard crest: an orca leaping across a shield][logo]
 
 Before you upload a family tree, find the notes that shouldn't go with
 it: mental illness, addiction, crime, family rumors, ID numbers, phone
@@ -108,7 +108,7 @@ the network blocked. Turn off Wi-Fi and it works the same.
 
 MIT licensed. A [Vashon Software](https://vashonsoftware.com) project.
 
-[logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/public/logo.webp
+[logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/brand/crest-text.svg
 [What it can do]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/what-it-can-do.md
 [How it works]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/how-it-works.md
 [Why it's safe]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/safety.md

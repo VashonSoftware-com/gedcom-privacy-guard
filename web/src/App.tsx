@@ -137,7 +137,7 @@ export default function App() {
   return (
     <div className="page">
       <header>
-        <img className="logo" src="/logo.webp" alt="" width="140" height="140" />
+        <img className="logo" src="/logo.svg" alt="" width="140" height="140" />
         <div>
           <h1>GEDCOM Privacy Guard</h1>
           <p className="tagline">

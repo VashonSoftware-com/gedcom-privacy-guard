@@ -70,6 +70,18 @@ retraction about someone else (reviewed first).
 *Why:* the people affected should control their own data without having to
 argue for it.
 
+**Children (under 21).** A living person under 21 is named only in the
+`immediate` circle. Every wider circle shows them by role ("a grandchild",
+"two children"), never by name, and that includes photo captions, alt text,
+search and lists. Their photos may still appear in wider circles (the family
+wants to see the kids), without names and with a parent's consent as the
+photo rule requires. A living person with no birth date counts as under 21
+unless there is evidence otherwise. At 21 the ordinary living-person rule
+applies. (John, 3 Nov 2026.)
+*Why:* children can't consent for themselves, and a child's name tied to
+photos, parents and places is the most exploitable combination; the
+immediate family already knows their names.
+
 **Recently deceased** (1 year). The public site shows the name and a
 hand-written story only; family circles see full facts.
 *Why:* FamilySearch and Ancestry use 0 years. The reference site is deliberately
@@ -141,4 +153,5 @@ to ask for a fix or removal.
 | Sensitive text in notes | notes are never copied from the GEDCOM | `rules.yaml` keyword scan, human review |
 | Circles | site build | — |
 | Photo metadata | stripped by the site build | — |
+| Children's names (under 21) outside `immediate` | planned | planned |
 | ID-theft fields, labels, policy file | planned | planned |

@@ -27,12 +27,16 @@ WORDS = "GEDCOMTools.com"
 FONT = Path(r"C:\Windows\Fonts\BarlowCondensed-Bold.ttf")
 SIZE = 74  # font size; capitals come out about 52 units tall
 TRACKING = 3  # extra space between letters
+GAP_AFTER = "GEDCOM"  # a hint of a space here, so it reads GEDCOM Tools
+GAP = 7
 FILL = "#f8f2de"  # the cream of the original lettering
 
-# The ribbon's middle, measured from the original lettering's baseline:
-# a parabola through (175, 703), (465, 798) and (755, 703), lifted so the
-# letters sit in the middle of the band.
-CENTRE_X, LOW_Y, CURVE = 465.0, 812.0, 95 / 290**2
+# The baseline: a parabola parallel to the ribbon's middle. The middle of
+# the teal band (between its gold edges) was measured on the artwork at
+# y 771.7 at x 465, falling about 0.00102 * dx^2 to each side. The baseline
+# sits half a capital's height (26) below it, so the capitals are centred
+# in the band.
+CENTRE_X, LOW_Y, CURVE = 465.0, 798.0, 0.00102
 
 
 def baseline(x: float) -> float:
@@ -77,19 +81,22 @@ def main() -> None:
     glyphs, cmap = font.getGlyphSet(), font.getBestCmap()
     scale = args.size / font["head"].unitsPerEm
     names = [cmap[ord(c)] for c in args.words]
-    advances = [glyphs[n].width * scale + TRACKING for n in names]
-    total = sum(advances) - TRACKING
+    widths = [glyphs[n].width * scale for n in names]
+    spacing = [TRACKING] * len(names)
+    if GAP_AFTER and args.words.startswith(GAP_AFTER):
+        spacing[len(GAP_AFTER) - 1] += GAP
+    total = sum(widths) + sum(spacing[:-1])
 
     table = arc_table(60, 870)
     middle = table[-1][0] / 2
     s = middle - total / 2
     paths = []
-    for name, adv in zip(names, advances, strict=True):
-        x = x_at(table, s + (adv - TRACKING) / 2)  # the letter's centre
+    for name, width, space in zip(names, widths, spacing, strict=True):
+        half = width / 2
+        x = x_at(table, s + half)  # the letter's centre
         y = baseline(x)
         angle = math.atan(-2 * CURVE * (x - CENTRE_X))
         cos, sin = math.cos(angle), math.sin(angle)
-        half = (adv - TRACKING) / 2
         # Font units (y up) -> artwork: scale, flip, centre the letter, rotate to the curve, move onto it.
         pen = SVGPathPen(glyphs)
         a, b = scale * cos, scale * sin
@@ -99,7 +106,7 @@ def main() -> None:
         glyphs[name].draw(TransformPen(pen, (a, b, c, d, e, f)))
         if pen.getCommands():
             paths.append(pen.getCommands())
-        s += adv
+        s += width + space
 
     d = " ".join(paths)
     args.out.write_text(

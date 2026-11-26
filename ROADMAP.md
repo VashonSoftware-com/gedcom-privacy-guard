@@ -320,6 +320,13 @@ Docs, short and accurate (genealogists first, developers second):
 - [ ] **Living-person warning:** flag people with no death date and a
       birth year implying a living person (default 120 years, matching
       Legacy). A warning only; removal is left to the source program.
+- [ ] **Cousin-marriage detection** (John, 26 Nov 2026): walk the
+      family links (FAMC/FAMS) to find couples who share an ancestor,
+      and name the relationship (first cousins, second cousins once
+      removed, uncle and niece). Some families would rather not
+      publish it, and it often points to a linking mistake or a
+      duplicate person instead. A warning with the shared ancestor,
+      not a removal; limit the search depth so large trees stay fast.
 - [x] **"Copy a problem report" button** (John chose, 30 Oct 2026): plain
       text the tester reads, then pastes into a GitHub issue themselves;
       nothing is sent. Version and build, browser, the exporting program

@@ -25,6 +25,8 @@ planned.
   "GEDCOMTools.com" (the app's header) and a plain crest with no ribbon
   (help pages, favicon and app icons), both made by
   `web/scripts/build-logos.mjs` from the original layered artwork.
+  The ribbon's lettering is centred in the band, with a hint of space
+  between "GEDCOM" and "Tools".
 - "Copy a problem report" on the web page, under the list and under any
   error: a plain-text summary (version, browser, which program made the
   file, its encoding, record and flag counts, warnings, timing) with no

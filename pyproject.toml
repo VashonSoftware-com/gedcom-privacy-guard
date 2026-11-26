@@ -49,7 +49,8 @@ include = ["gedcom_privacy_guard", "tests", "sample_data", "README.md", "LICENSE
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+# basetemp: keeps test files out of %TEMP%, which Windows walks at every sign-in. Emptied each run.
+addopts = "-ra --basetemp=.tmp-pytest"
 
 [tool.ruff]
 line-length = 100

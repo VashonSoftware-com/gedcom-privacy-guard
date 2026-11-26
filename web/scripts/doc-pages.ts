@@ -69,14 +69,14 @@ export function docPages(footer: { version: string; sha: string; date: string })
     <meta name="description" content="${escape(description)}" />
     <meta name="theme-color" content="#152a41" />
     <title>${escape(title)} · GEDCOM Privacy Guard</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     ${css ? `<link rel="stylesheet" href="/${css}" />` : ""}
   </head>
   <body>
     <div class="page">
       <header class="doc-head">
-        <a href="/"><img class="logo small" src="/logo.svg" alt="" width="64" height="64" /></a>
+        <a href="/"><img class="logo small" src="/logo.webp" alt="" width="64" height="64" /></a>
         <div>
           <p class="site-name"><a href="/">GEDCOM Privacy Guard</a></p>
           <nav>

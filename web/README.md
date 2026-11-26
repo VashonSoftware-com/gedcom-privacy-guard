@@ -43,11 +43,16 @@ their sha256. After changing the Python package, run it again.
   (`vite.config.ts`) writes `dist/sw.js` with the list of every built
   file and a version hash; `npx vite preview` is the place to test it,
   as `npm run dev` doesn't register it.
-- `brand/`: the logo, drawn as SVG: an orca leaping across a navy
-  shield, with the Cornelisons.com family shield below it.
-  `crest-text.svg` adds a ribbon with the name (for the README and
-  anywhere it stands alone); `crest.svg` is the same without the ribbon;
-  `icon.svg` puts it on the page colour, square, for app icons.
+- `brand/`: the logo, an orca leaping across a navy shield with the
+  Cornelisons.com family shield below it, in two versions: with the
+  ribbon lettered "GEDCOMTools.com" (`logo-scroll.png`, and
+  `public/logo.webp` in the app's header) and plain, the shield drawn to
+  its point (`logo-plain.png`, `public/logo-plain.webp`, the favicon and
+  app icons). `scripts/build-logos.mjs` makes all of them from the
+  layered artwork in `orca-crest-source.svg` (2 MB, kept outside git);
+  `scripts/ribbon_lettering.py` turns the ribbon's words into outlines
+  (`ribbon-lettering.svg`). `crest*.svg` and `icon.svg` are an earlier
+  hand-drawn version, no longer used.
   `public/logo.svg` and `public/favicon.svg` are copies of `crest.svg`.
   After changing the crest, copy it over and remake the PNG icons:
 

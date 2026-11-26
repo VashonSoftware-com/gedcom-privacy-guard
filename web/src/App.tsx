@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { RedactStats, Request, Response, Row, ScanResult } from "./engine/protocol";
+import { GLOBE_SVG, GREEN_NOTE_HTML } from "./greenNote";
 import { Features, HowItWorks, Offline } from "./Landing";
 import { ProblemReport } from "./ProblemReport";
 import { Progress } from "./Progress";
@@ -568,9 +569,16 @@ export default function App() {
           </span>
         </p>
         <p className="footer-credit">
+          <a href="/privacy/" {...away}>
+            Privacy
+          </a>
           <a className="site-credit-link" href="https://vashonsoftware.com" target="_blank" rel="noreferrer">
             Site by Vashon Software
           </a>
+        </p>
+        <p className="green-note">
+          <span dangerouslySetInnerHTML={{ __html: GLOBE_SVG }} />
+          <span dangerouslySetInnerHTML={{ __html: GREEN_NOTE_HTML }} />
         </p>
         <p className="footer-trademark">
           GEDCOM is a registered trademark of Intellectual Reserve, Inc. This site is not affiliated with or endorsed by FamilySearch.

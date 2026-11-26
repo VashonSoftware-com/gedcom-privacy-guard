@@ -1,6 +1,6 @@
 # GEDCOM Privacy Guard
 
-![The GEDCOM Privacy Guard crest: an orca leaping from a shield over a ribbon][logo]
+![The GEDCOM Privacy Guard crest: an orca leaping from a shield over a ribbon reading GEDCOMTools.com][logo]
 
 Before you upload a family tree, find the notes that shouldn't go with
 it: mental illness, addiction, crime, family rumors, ID numbers, phone

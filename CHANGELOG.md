@@ -15,6 +15,16 @@ planned.
 
 ### Added
 
+- A Privacy page on the web site (`docs/privacy.md`), linked from the
+  footer: your file is never uploaded, no cookies, cookieless visit
+  counts, what the offline copy keeps, and what GitHub sees when you
+  report a problem.
+- Vashon Software's renewable-energy note, with its globe, at the foot
+  of every page.
+- Two versions of the logo: the crest with its ribbon reading
+  "GEDCOMTools.com" (the app's header) and a plain crest with no ribbon
+  (help pages, favicon and app icons), both made by
+  `web/scripts/build-logos.mjs` from the original layered artwork.
 - "Copy a problem report" on the web page, under the list and under any
   error: a plain-text summary (version, browser, which program made the
   file, its encoding, record and flag counts, warnings, timing) with no

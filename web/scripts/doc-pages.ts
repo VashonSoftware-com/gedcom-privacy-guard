@@ -7,17 +7,20 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, posix } from "node:path";
 import { marked } from "marked";
 import type { Plugin } from "vite";
+import { GLOBE_SVG, GREEN_NOTE_HTML } from "../src/greenNote";
 
 const REPO = "https://github.com/VashonSoftware-com/gedcom-privacy-guard";
 
-/** Each page: the doc it comes from, its address on the site, and its name in the menu. */
-export const PAGES = [
+/** Each page: the doc it comes from, its address on the site, and its name
+ * in the menu (none: linked from the footer only). */
+export const PAGES: { doc: string; slug: string; nav?: string }[] = [
   { doc: "what-it-can-do.md", slug: "what-it-can-do", nav: "What it can and can't do" },
   { doc: "help-wanted.md", slug: "help-us-test", nav: "Help us test it" },
   { doc: "exporting.md", slug: "exporting", nav: "Getting your GEDCOM file" },
   { doc: "safety.md", slug: "safety", nav: "Why your data is safe" },
   { doc: "how-it-works.md", slug: "how-it-works", nav: "How it decides" },
   { doc: "legacy.md", slug: "legacy", nav: "Legacy users" },
+  { doc: "privacy.md", slug: "privacy" },
 ];
 
 const escape = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -54,7 +57,7 @@ export function docPages(footer: { version: string; sha: string; date: string })
     writeBundle(options, bundle) {
       const dist = options.dir!;
       const css = Object.keys(bundle).find((f) => f.endsWith(".css"));
-      const nav = PAGES.map((p) => `<a href="/${p.slug}/">${escape(p.nav)}</a>`).join("\n          ");
+      const nav = PAGES.filter((p) => p.nav).map((p) => `<a href="/${p.slug}/">${escape(p.nav!)}</a>`).join("\n          ");
       for (const page of PAGES) {
         const { title, description, html } = render(readFileSync(new URL(`../../docs/${page.doc}`, import.meta.url), "utf8"));
         const out = join(dist, page.slug);
@@ -76,7 +79,7 @@ export function docPages(footer: { version: string; sha: string; date: string })
   <body>
     <div class="page">
       <header class="doc-head">
-        <a href="/"><img class="logo small" src="/logo.webp" alt="" width="64" height="64" /></a>
+        <a href="/"><img class="logo small" src="/logo-plain.webp" alt="" width="64" height="64" /></a>
         <div>
           <p class="site-name"><a href="/">GEDCOM Privacy Guard</a></p>
           <nav>
@@ -97,8 +100,10 @@ ${html}
           <a href="${REPO}/commit/${footer.sha}">${footer.sha.slice(0, 7)}</a> · ${footer.date}</span>
         </p>
         <p class="footer-credit">
+          <a href="/privacy/">Privacy</a>
           <a class="site-credit-link" href="https://vashonsoftware.com" target="_blank" rel="noreferrer">Site by Vashon Software</a>
         </p>
+        <p class="green-note">${GLOBE_SVG}<span>${GREEN_NOTE_HTML}</span></p>
         <p class="footer-trademark">GEDCOM is a registered trademark of Intellectual Reserve, Inc. This site is not affiliated with or endorsed by FamilySearch.</p>
       </footer>
     </div>

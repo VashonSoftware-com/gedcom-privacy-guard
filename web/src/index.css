@@ -476,6 +476,24 @@ footer p {
 
 .footer-credit {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Vashon Software's renewable-energy note (src/greenNote.ts), with its globe. */
+.green-note {
+  flex-basis: 100%;
+  display: flex;
+  gap: 10px;
+  max-width: 46rem;
+  line-height: 1.5;
+}
+
+.green-note svg {
+  flex: none;
+  margin-top: 2px;
+  color: #3f7d4f;
 }
 
 /* The scan's progress: a ring that fills, with an orca swimming round it. */

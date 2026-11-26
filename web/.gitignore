@@ -5,3 +5,7 @@ dist/
 public/pyodide/
 *.tsbuildinfo
 .wrangler/
+
+# The crest artwork (2 MB, over the repo's 500 KB file limit) is kept
+# outside git; scripts/build-logos.mjs needs it only to remake the logos.
+brand/orca-crest-source.svg

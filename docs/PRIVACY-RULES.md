@@ -76,8 +76,10 @@ argue for it.
 search and lists. Their photos may still appear in wider circles (the family
 wants to see the kids), without names and with a parent's consent as the
 photo rule requires. A living person with no birth date counts as under 21
-unless there is evidence otherwise. At 21 the ordinary living-person rule
-applies. (John, 3 Nov 2026.)
+unless there is evidence otherwise. Evidence of adulthood: married or a
+parent, or a parent born 55+, a grandparent 100+ or a sibling 30+ years
+before the 21-year line (John, 21 Nov 2026). At 21 the ordinary
+living-person rule applies. (John, 3 Nov 2026.)
 *Why:* children can't consent for themselves, and a child's name tied to
 photos, parents and places is the most exploitable combination; the
 immediate family already knows their names.
@@ -153,5 +155,5 @@ to ask for a fix or removal.
 | Sensitive text in notes | notes are never copied from the GEDCOM | `rules.yaml` keyword scan, human review |
 | Circles | site build | — |
 | Photo metadata | stripped by the site build | — |
-| Children's names (under 21) outside `immediate` | planned | planned |
+| Children's names (under 21) outside `immediate` | build check + names swapped for roles (cornelisons.com v0.2.65) | planned |
 | ID-theft fields, labels, policy file | planned | planned |

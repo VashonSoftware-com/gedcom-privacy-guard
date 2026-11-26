@@ -1,0 +1,93 @@
+# Cloudflare Workers Builds reports each build back to GitHub as a check run.
+# A failed build opens (or adds to) one "Site build failed" issue, which
+# emails John. The next successful build closes it.
+# After a successful build, the site check's warnings (/build-checks.json,
+# written by web/scripts/check-site.mjs) keep one "Site check found
+# problems" issue up to date; a clean check closes it.
+# Adapted from new-site-kit's starter workflow (26 Nov 2026).
+name: Build alert
+
+on:
+  check_run:
+    types: [completed]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  alert:
+    if: github.event.check_run.app.slug == 'cloudflare-workers-and-pages'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      CONCLUSION: ${{ github.event.check_run.conclusion }}
+      SHA: ${{ github.event.check_run.head_sha }}
+      DETAILS: ${{ github.event.check_run.details_url }}
+      SITE: https://gedcomtools.com
+    steps:
+      - name: Open, update or close the build-failed issue
+        run: |
+          existing=$(gh issue list --state open --label build-failed --json number --jq '.[0].number // empty')
+          short=${SHA:0:7}
+          commit_url="${{ github.server_url }}/${GH_REPO}/commit/${SHA}"
+          case "$CONCLUSION" in
+            failure|timed_out|startup_failure)
+              body="The website did not update after change [${short}](${commit_url}) (result: ${CONCLUSION}). The live site still shows the last good version.
+
+          Build log: ${DETAILS}
+
+          @VashJuan"
+              if [ -n "$existing" ]; then
+                gh issue comment "$existing" --body "$body"
+              else
+                gh label create build-failed --color B60205 --description "Cloudflare build failed" 2>/dev/null || true
+                gh issue create --title "Site build failed" --label build-failed --body "$body"
+              fi
+              ;;
+            success)
+              if [ -n "$existing" ]; then
+                gh issue close "$existing" --comment "Fixed: change [${short}](${commit_url}) built and is live."
+              fi
+              ;;
+          esac
+
+      - name: Open, update or close the site-check issue
+        if: env.CONCLUSION == 'success'
+        run: |
+          # The new version can take a few seconds to reach every Cloudflare location.
+          for attempt in 1 2 3 4 5 6; do
+            curl -fsS -H 'Cache-Control: no-cache' "$SITE/build-checks.json?sha=$SHA" -o checks.json || true
+            [ "$(jq -r '.commit // empty' checks.json 2>/dev/null)" = "$SHA" ] && break
+            rm -f checks.json; sleep 10
+          done
+          if [ ! -f checks.json ]; then echo "Live site isn't on ${SHA:0:7} (a newer change may be publishing); skipping."; exit 0; fi
+
+          label=site-check
+          existing=$(gh issue list --state open --label "$label" --json number --jq '.[0].number // empty')
+          count=$(jq '.warnings | length' checks.json)
+          if [ "$count" -eq 0 ]; then
+            [ -n "$existing" ] && gh issue close "$existing" --comment "All clear: the site check passed on change ${SHA:0:7}."
+            exit 0
+          fi
+          {
+            echo "The site published, but the site check found $count thing(s) to fix (change [${SHA:0:7}](${{ github.server_url }}/${GH_REPO}/commit/${SHA})):"
+            echo
+            jq -r '.warnings[] | "- " + .' checks.json
+            echo
+            echo "This issue updates itself after each change and closes when the check is clean."
+            echo
+            echo "@VashJuan"
+          } > body.md
+          if [ -z "$existing" ]; then
+            gh label create "$label" --color D9A400 --description "Site check warnings" 2>/dev/null || true
+            gh issue create --title "Site check found problems" --label "$label" --body-file body.md
+          else
+            old=$(gh issue view "$existing" --json body --jq .body | grep '^- ' || true)
+            new=$(grep '^- ' body.md)
+            if [ "$old" != "$new" ]; then
+              gh issue edit "$existing" --body-file body.md
+              gh issue comment "$existing" --body "The list changed after change ${SHA:0:7}; see the top of this issue."
+            fi
+          fi

@@ -13,4 +13,4 @@ export const GREEN_NOTE_HTML =
   '<a href="https://www.cloudflare.com/impact/" target="_blank" rel="noreferrer">Cloudflare</a>, ' +
   "which buys renewable energy to match all the electricity its network uses each year. " +
   "And 0.5% of every payment to Vashon Software goes to carbon removal through " +
-  '<a href="https://climate.stripe.com/" target="_blank" rel="noreferrer">Stripe Climate</a>.';
+  '<a href="https://stripe.com/climate" target="_blank" rel="noreferrer">Stripe Climate</a>.';

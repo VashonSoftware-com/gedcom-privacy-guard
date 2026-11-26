@@ -28,7 +28,7 @@ function serviceWorker(): Plugin {
       const files = readdirSync(dist, { recursive: true, withFileTypes: true })
         .filter((d) => d.isFile())
         .map((d) => relative(dist, join(d.parentPath, d.name)).replace(/\\/g, "/"))
-        .filter((f) => !/^(_headers|sw\.js|404\.html)$|\.map$/.test(f))
+        .filter((f) => !/^(_headers|sw\.js|404\.html|robots\.txt|sitemap\.xml|og-image\.png|favicon\.ico)$|\.map$/.test(f))
         .sort();
       const hash = createHash("sha256");
       for (const f of files) hash.update(f).update(readFileSync(join(dist, f)));

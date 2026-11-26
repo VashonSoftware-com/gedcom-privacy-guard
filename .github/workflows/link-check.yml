@@ -1,0 +1,61 @@
+# Every Monday: test the outside links on the site's pages. One
+# "broken-links" issue (GitHub emails watchers) is opened when links break,
+# updated when the list changes, and closed when every link works.
+# Adapted from new-site-kit's starter workflow (26 Nov 2026).
+name: Weekly link check
+
+on:
+  schedule:
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            docs
+            web/src
+            web/scripts
+            web/index.html
+            README.md
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test outside links
+        id: links
+        continue-on-error: true
+        run: node web/scripts/check-links.mjs "$RUNNER_TEMP/report.md"
+      - name: Open, update or close the broken-links issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OUTCOME: ${{ steps.links.outcome }}
+        run: |
+          label=broken-links
+          existing=$(gh issue list --state open --label "$label" --json number --jq '.[0].number // empty')
+          report="$RUNNER_TEMP/report.md"
+          if [ "$OUTCOME" = success ]; then
+            [ -n "$existing" ] && gh issue close "$existing" --comment "All clear: every outside link worked on $(date +%Y-%m-%d)."
+            exit 0
+          fi
+          [ -s "$report" ] || { echo "The link check failed without a report; see the log above."; exit 1; }
+          if [ -z "$existing" ]; then
+            gh label create "$label" --color D9A400 --description "Weekly outside-link check" 2>/dev/null || true
+            gh issue create --title "Broken links on the site" --label "$label" --body-file "$report"
+          else
+            old=$(gh issue view "$existing" --json body --jq .body | grep '^- ' || true)
+            new=$(grep '^- ' "$report")
+            if [ "$old" != "$new" ]; then
+              gh issue edit "$existing" --body-file "$report"
+              gh issue comment "$existing" --body "The list changed on $(date +%Y-%m-%d); see the top of this issue."
+            fi
+          fi

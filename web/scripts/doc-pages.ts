@@ -48,6 +48,8 @@ function render(markdown: string): { title: string; description: string; html: s
   return { title, description, html };
 }
 
+const SITE = "https://gedcomtools.com";
+
 export function docPages(footer: { version: string; sha: string; date: string }): Plugin {
   return {
     name: "doc-pages",
@@ -58,21 +60,39 @@ export function docPages(footer: { version: string; sha: string; date: string })
       const dist = options.dir!;
       const css = Object.keys(bundle).find((f) => f.endsWith(".css"));
       const nav = PAGES.filter((p) => p.nav).map((p) => `<a href="/${p.slug}/">${escape(p.nav!)}</a>`).join("\n          ");
-      for (const page of PAGES) {
-        const { title, description, html } = render(readFileSync(new URL(`../../docs/${page.doc}`, import.meta.url), "utf8"));
-        const out = join(dist, page.slug);
-        mkdirSync(out, { recursive: true });
-        writeFileSync(
-          join(out, "index.html"),
-          `<!doctype html>
+
+      /** A whole page in the site's frame. `doc` is the docs/ file it
+       * comes from (none for the 404 page, which isn't indexed). */
+      const frame = (o: { title: string; description: string; html: string; path: string; doc?: string }) => {
+        const url = SITE + o.path;
+        const meta = o.doc
+          ? `<link rel="canonical" href="${url}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="GEDCOM Tools" />
+    <meta property="og:title" content="${escape(o.title)}" />
+    <meta property="og:description" content="${escape(o.description)}" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${SITE}/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />`
+          : `<meta name="robots" content="noindex" />`;
+        const source = o.doc
+          ? ` This page is also on
+          <a href="${REPO}/blob/main/docs/${o.doc}">GitHub</a>.`
+          : "";
+        return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="${escape(description)}" />
+    <title>${escape(o.title)} · GEDCOM Privacy Guard</title>
+    <meta name="description" content="${escape(o.description)}" />
+    ${meta}
     <meta name="theme-color" content="#152a41" />
-    <title>${escape(title)} · GEDCOM Privacy Guard</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     ${css ? `<link rel="stylesheet" href="/${css}" />` : ""}
   </head>
@@ -89,12 +109,11 @@ export function docPages(footer: { version: string; sha: string; date: string })
         </div>
       </header>
       <main class="doc">
-${html}
+${o.html}
       </main>
       <footer>
         <p class="footer-copy">
-          Free and <a href="${REPO}">open source</a>. This page is also on
-          <a href="${REPO}/blob/main/docs/${page.doc}">GitHub</a>.
+          Free and <a href="${REPO}">open source</a>.${source}
           <br />
           <span class="footer-version">Version ${escape(footer.version)} · build
           <a href="${REPO}/commit/${footer.sha}">${footer.sha.slice(0, 7)}</a> · ${footer.date}</span>
@@ -109,9 +128,42 @@ ${html}
     </div>
   </body>
 </html>
-`,
-        );
+`;
+      };
+
+      for (const page of PAGES) {
+        const rendered = render(readFileSync(new URL(`../../docs/${page.doc}`, import.meta.url), "utf8"));
+        const out = join(dist, page.slug);
+        mkdirSync(out, { recursive: true });
+        writeFileSync(join(out, "index.html"), frame({ ...rendered, path: `/${page.slug}/`, doc: page.doc }));
       }
+
+      // Cloudflare serves this for any address that doesn't exist
+      // ("not_found_handling": "404-page" in wrangler.jsonc), with status 404.
+      writeFileSync(
+        join(dist, "404.html"),
+        frame({
+          title: "Page not found",
+          description: "There's no page at this address.",
+          path: "/404.html",
+          html: `<h1>Page not found</h1>
+<p>There's no page at this address. It may have moved, or the link may have a typo.</p>
+<p><a href="/">Check a family tree file</a>, or pick a page from the menu above.</p>`,
+        }),
+      );
+
+      // For search engines. Cloudflare's managed robots.txt adds its own
+      // content signals above these lines.
+      const urls = ["/", ...PAGES.map((p) => `/${p.slug}/`)];
+      writeFileSync(
+        join(dist, "sitemap.xml"),
+        `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((u) => `  <url><loc>${SITE}${u}</loc><lastmod>${footer.date}</lastmod></url>`).join("\n")}
+</urlset>
+`,
+      );
+      writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
     },
   };
 }

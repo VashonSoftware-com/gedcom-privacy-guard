@@ -12,7 +12,7 @@
 // Writes public/logo.webp, public/logo-plain.webp, the favicon and app
 // icons, and full-size PNGs of both versions in brand/.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -111,6 +111,47 @@ for (const [file, size] of icons) {
   await render(VERSIONS.plain).resize(size).png({ palette: true, quality: 95, compressionLevel: 9 }).toFile(join(PUBLIC, file));
 }
 const full = await render(VERSIONS.plain).resize(930).png().toBuffer();
-await sharp(full).extract({ left: 95, top: 50, width: 740, height: 740 }).resize(64).png({ palette: true, quality: 95, compressionLevel: 9 }).toFile(join(PUBLIC, "favicon.png"));
+const close = () => sharp(full).extract({ left: 95, top: 50, width: 740, height: 740 });
+await close().resize(64).png({ palette: true, quality: 95, compressionLevel: 9 }).toFile(join(PUBLIC, "favicon.png"));
+
+// favicon.ico (16, 32 and 48 px) for browsers, feed readers and crawlers
+// that ask for /favicon.ico whatever the page says. An ICO may hold PNGs
+// directly: a 6-byte header, a 16-byte entry per image, then the images.
+const sizes = [16, 32, 48];
+const images = await Promise.all(sizes.map((size) => close().resize(size).png().toBuffer()));
+const header = Buffer.alloc(6 + 16 * sizes.length);
+header.writeUInt16LE(1, 2); // type: icon
+header.writeUInt16LE(sizes.length, 4);
+let offset = header.length;
+sizes.forEach((size, i) => {
+  const at = 6 + 16 * i;
+  header.writeUInt8(size, at);
+  header.writeUInt8(size, at + 1);
+  header.writeUInt16LE(1, at + 4); // colour planes
+  header.writeUInt16LE(32, at + 6); // bits per pixel
+  header.writeUInt32LE(images[i].length, at + 8);
+  header.writeUInt32LE(offset, at + 12);
+  offset += images[i].length;
+});
+writeFileSync(join(PUBLIC, "favicon.ico"), Buffer.concat([header, ...images]));
+
+// The picture shown when someone shares a link (Facebook, LinkedIn,
+// Bluesky, messages): 1200 x 630, the ribbon crest beside the name.
+const crest = await render(VERSIONS.scroll).resize(520).png().toBuffer();
+const card = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <rect width="1200" height="630" fill="${NAVY}"/>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="${CREAM}">
+    <text x="610" y="250" font-size="64" font-weight="bold">GEDCOM</text>
+    <text x="610" y="325" font-size="64" font-weight="bold">Privacy Guard</text>
+    <rect x="612" y="355" width="120" height="5" fill="${GOLD}"/>
+    <text x="610" y="420" font-size="32">Check your family tree file</text>
+    <text x="610" y="462" font-size="32">before you share it.</text>
+    <text x="610" y="530" font-size="26" fill="${GOLD}">gedcomtools.com</text>
+  </g>
+</svg>`;
+await sharp(Buffer.from(card))
+  .composite([{ input: crest, left: 55, top: 55 }])
+  .png({ palette: true, quality: 95, compressionLevel: 9 })
+  .toFile(join(PUBLIC, "og-image.png"));
 
 console.log("logos written");

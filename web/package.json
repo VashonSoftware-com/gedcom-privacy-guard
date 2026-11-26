@@ -6,7 +6,8 @@
   "scripts": {
     "stage": "node scripts/stage-python.mjs",
     "dev": "npm run stage && vite",
-    "build": "npm run stage && tsc -b && vite build",
+    "build": "npm run stage && tsc -b && vite build && node scripts/check-site.mjs",
+    "icons": "node scripts/build-logos.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,8 +21,13 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "marked": "^18.1.2",
+    "sharp": "^0.35.5",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "wrangler": "^4.156.0"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "workerd": true
   }
 }

@@ -15,6 +15,17 @@ planned.
 
 ### Added
 
+- Web site housekeeping, to Vashon Software's site standards: a real
+  "Page not found" page, `robots.txt` and `sitemap.xml`, canonical
+  addresses, link-preview pictures and text for every page (Facebook,
+  LinkedIn, messages), search-engine data describing the app, and a
+  `favicon.ico`.
+- Every web build now checks itself (`web/scripts/check-site.mjs`):
+  missing titles, descriptions or required files stop it; broken
+  internal links are reported. A "Build alert" workflow opens an issue
+  when a Cloudflare build fails, and a weekly workflow checks the
+  outside links.
+
 - A Privacy page on the web site (`docs/privacy.md`), linked from the
   footer: your file is never uploaded, no cookies, cookieless visit
   counts, what the offline copy keeps, and what GitHub sees when you
@@ -62,6 +73,9 @@ planned.
   at build time with the list of files to keep.
 
 ### Fixed
+
+- The Stripe Climate link in the footer pointed at an address that no
+  longer exists.
 
 - "During the Depression" and "the Depression years" are no longer
   flagged as mental health.

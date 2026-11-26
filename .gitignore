@@ -16,3 +16,6 @@ cleaned.ged
 .coverage
 dist/
 /.tmp-pytest/
+
+# Canva originals (licence: never share as standalone files)
+/App Logo for Privacy Guard.svg

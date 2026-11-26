@@ -423,6 +423,11 @@ footer p {
 }
 
 /* "Site by Vashon Software", as on Vashon Software's other sites. */
+.footer-trademark {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
 .site-credit-link {
   display: inline-flex;
   align-items: center;

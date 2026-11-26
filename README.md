@@ -108,6 +108,9 @@ the network blocked. Turn off Wi-Fi and it works the same.
 
 MIT licensed. A [Vashon Software](https://vashonsoftware.com) project.
 
+GEDCOM is a registered trademark of Intellectual Reserve, Inc.
+GEDCOM Privacy Guard is not affiliated with or endorsed by FamilySearch.
+
 [logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/brand/crest-text.svg
 [What it can do]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/what-it-can-do.md
 [How it works]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/how-it-works.md

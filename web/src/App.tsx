@@ -572,6 +572,9 @@ export default function App() {
             Site by Vashon Software
           </a>
         </p>
+        <p className="footer-trademark">
+          GEDCOM is a registered trademark of Intellectual Reserve, Inc. This site is not affiliated with or endorsed by FamilySearch.
+        </p>
       </footer>
     </div>
   );

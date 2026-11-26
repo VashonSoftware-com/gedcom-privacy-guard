@@ -99,6 +99,7 @@ ${html}
         <p class="footer-credit">
           <a class="site-credit-link" href="https://vashonsoftware.com" target="_blank" rel="noreferrer">Site by Vashon Software</a>
         </p>
+        <p class="footer-trademark">GEDCOM is a registered trademark of Intellectual Reserve, Inc. This site is not affiliated with or endorsed by FamilySearch.</p>
       </footer>
     </div>
   </body>

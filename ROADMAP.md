@@ -152,7 +152,8 @@ Testers can't use a terminal, so the web version moved ahead of the
 announcement (John, 29 Oct 2026; ADR-010): it runs the Python engine
 in the browser with Pyodide and works end to end locally, including a
 192k-person export (~95 s). It's live at
-<https://gedcom.vashonsoftware.com> (Cloudflare Workers static assets,
+<https://gedcomtools.com> (moved from gedcom.vashonsoftware.com on
+26 Nov 2026; Cloudflare Workers static assets,
 deployed on every merge to `main`; 29 Oct 2026). Next: check the live
 page against Vashon Software's
 [website evaluation criteria](https://github.com/VashonSoftware-com/VashonSoftware.com/blob/main/website-evaluation-criteria.md),
@@ -306,7 +307,7 @@ Docs, short and accurate (genealogists first, developers second):
 - [x] **Web version** (ADR-004/005/010), moved up for testers: the
       Python engine runs in the browser with Pyodide, every file is
       served from our own site, and a strict CSP blocks other network
-      calls (29 Oct 2026). Live at <https://gedcom.vashonsoftware.com>
+      calls (29 Oct 2026). Live at <https://gedcomtools.com>
       (29 Oct 2026). Offline support and install (PWA), logo and
       landing content added 29 Oct 2026. Left: try it on an iPad.
 - [ ] **Check the live page** against Vashon Software's

@@ -9,5 +9,7 @@
     "directory": "./dist",
     "not_found_handling": "404-page"
   },
-  "routes": [{ "pattern": "gedcom.vashonsoftware.com", "custom_domain": true }]
+  // Other addresses (www, .org, the old gedcom.vashonsoftware.com)
+  // redirect here from the small Worker in redirect/.
+  "routes": [{ "pattern": "gedcomtools.com", "custom_domain": true }]
 }

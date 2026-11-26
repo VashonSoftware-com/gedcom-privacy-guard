@@ -9,7 +9,7 @@ any genealogy program (Legacy, RootsMagic, Family Tree Maker, Gramps,
 Ancestry…).
 
 **No install needed:** use it in your browser at
-<https://gedcom.vashonsoftware.com>. Your file stays on your computer,
+<https://gedcomtools.com>. Your file stays on your computer,
 and the page works offline. The rest of this page is about the
 command-line version, which adds your own word lists and an Excel
 review.

@@ -131,7 +131,7 @@ can be added for everyone.
 
 ## Where it runs
 
-- **The web page**, <https://gedcom.vashonsoftware.com>, runs the engine
+- **The web page**, <https://gedcomtools.com>, runs the engine
   inside your browser (Python compiled for the web, called Pyodide). The
   page loads every file from its own site, and its security settings
   forbid it to send anything anywhere. After the first visit it keeps a

@@ -1,0 +1,13 @@
+// Redirects other addresses to https://gedcomtools.com (see worker.js).
+// Deploy from this folder: npx wrangler deploy
+// gedcomtools.org routes go in once that domain is active in Cloudflare.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "gedcomtools-redirect",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-26",
+  "routes": [
+    { "pattern": "www.gedcomtools.com", "custom_domain": true },
+    { "pattern": "gedcom.vashonsoftware.com", "custom_domain": true }
+  ]
+}

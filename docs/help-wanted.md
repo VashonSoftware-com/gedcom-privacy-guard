@@ -46,7 +46,7 @@ Ancestry, MyHeritage, FamilySearch and Reunion** (Legacy is covered).
 Our goal: someone who has never seen the tool opens it, checks an
 export and saves a cleaned file in **under 15 minutes**, with no help.
 
-1. Start a timer and open <https://gedcom.vashonsoftware.com>.
+1. Start a timer and open <https://gedcomtools.com>.
 2. Use your own export if you like (it never leaves your computer) or
    our [sample tree](https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/sample_data/sample.ged)
    (right-click, *Save link as*).

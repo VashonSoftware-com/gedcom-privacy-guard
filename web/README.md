@@ -64,7 +64,8 @@ their sha256. After changing the Python package, run it again.
 Cloudflare Workers with static assets (no Worker script), set up in
 `wrangler.jsonc`, at `gedcomtools.com` (moved from
 `gedcom.vashonsoftware.com` on 26 Nov 2026). The small Worker in
-`redirect/` sends `www`, `gedcomtools.org` and the old address there,
+`redirect/` sends `www`, `gedcomtools.org`, `www.gedcomtools.org`
+and the old address there,
 and retires the old address's offline copy (see `redirect/worker.js`);
 deploy it from that folder with `npx wrangler deploy`. Workers Builds is
 connected to GitHub: root directory `web`, build command

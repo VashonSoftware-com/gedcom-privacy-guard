@@ -3,7 +3,8 @@
 GEDCOM Privacy Guard runs entirely on your own computer. It reads the
 file you name and writes two files next to it: `review.xlsx` and
 `cleaned.ged`. It has no server, no account, no updates that phone home
-and no usage tracking. Your tree is never uploaded anywhere.
+and no usage tracking. Your tree is never uploaded anywhere. (The web
+page counts visits; see below.)
 
 ## How we make sure
 
@@ -55,6 +56,12 @@ could leave it anyway, and none of them is the program's doing:
   browser only visits one when you click.
 - **Installing downloads the program, not your data.** `pipx install`
   fetches the program from PyPI once. After that it never connects.
+- **The web page counts visits, not files.** gedcomtools.com uses
+  Cloudflare Web Analytics, which records that a page was viewed: its
+  address, your browser type, your country and how fast it loaded. It
+  sets no cookies and never sees your file or anything in it. The
+  page's *Content Security Policy* lets it reach only its own site and
+  that one counter.
 - **Uploading `cleaned.ged` is up to you.** That's the point of the
   tool: you decide what's in the file before you upload it.
 

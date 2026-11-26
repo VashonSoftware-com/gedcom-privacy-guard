@@ -1,9 +1,10 @@
 # Cloudflare response headers (Workers static assets read this file). The CSP is the browser-enforced
 # version of "your file never leaves this computer": the page may only
-# talk to its own site. 'wasm-unsafe-eval' lets Pyodide compile Python's
+# talk to its own site, plus Cloudflare Web Analytics' visit counter
+# (cookieless; it never sees the file; John, 26 Nov 2026). 'wasm-unsafe-eval' lets Pyodide compile Python's
 # WebAssembly; it does not allow JavaScript eval.
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; worker-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   Referrer-Policy: no-referrer
   Cross-Origin-Opener-Policy: same-origin
   X-Content-Type-Options: nosniff

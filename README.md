@@ -1,6 +1,6 @@
 # GEDCOM Privacy Guard
 
-![The GEDCOM Privacy Guard crest: an orca leaping across a shield][logo]
+![The GEDCOM Privacy Guard crest: an orca leaping from a shield over a ribbon][logo]
 
 Before you upload a family tree, find the notes that shouldn't go with
 it: mental illness, addiction, crime, family rumors, ID numbers, phone
@@ -111,7 +111,7 @@ MIT licensed. A [Vashon Software](https://vashonsoftware.com) project.
 GEDCOM is a registered trademark of Intellectual Reserve, Inc.
 GEDCOM Privacy Guard is not affiliated with or endorsed by FamilySearch.
 
-[logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/brand/crest-text.svg
+[logo]: https://raw.githubusercontent.com/VashonSoftware-com/gedcom-privacy-guard/main/web/public/logo.webp
 [What it can do]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/what-it-can-do.md
 [How it works]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/how-it-works.md
 [Why it's safe]: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/docs/safety.md

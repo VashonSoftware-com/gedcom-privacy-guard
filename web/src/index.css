@@ -423,9 +423,10 @@ footer p {
 }
 
 /* "Site by Vashon Software", as on Vashon Software's other sites. */
+/* Small, but full muted colour: faded with opacity it failed the
+   contrast check (PageSpeed, 26 Nov 2026). */
 .footer-trademark {
   font-size: 0.75rem;
-  opacity: 0.75;
 }
 
 .site-credit-link {

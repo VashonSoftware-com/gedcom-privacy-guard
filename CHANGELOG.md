@@ -72,6 +72,14 @@ planned.
   worker keeps the page's own files (never the user's tree), generated
   at build time with the list of files to keep.
 
+### Changed
+
+- The web page loads the checking engine (about 3 MB) only when you
+  reach for the file box or choose a file, not as soon as the page
+  opens. A visit that only reads the page now downloads about a tenth
+  as much. The offline copy of the engine is kept once you've checked
+  a file, not on every first visit.
+
 ### Fixed
 
 - The Stripe Climate link in the footer pointed at an address that no

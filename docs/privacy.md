@@ -29,10 +29,11 @@ how you can check it yourself.
 
 - **No cookies,** and no advertising or tracking tools.
 - **The program files, for offline use.** The site saves its own files
-  (the page, the checking engine and the standard rules) in your
-  browser's storage, so it starts faster and works without a
-  connection. Nothing from your tree is stored. Clearing this site's
-  data in your browser removes them.
+  in your browser's storage: the page on your first visit, and the
+  checking engine and standard rules once you've checked a file. That
+  way it starts faster and works without a connection. Nothing from
+  your tree is stored. Clearing this site's data in your browser
+  removes them.
 
 ## What we learn about visits
 

@@ -134,8 +134,8 @@ can be added for everyone.
 - **The web page**, <https://gedcomtools.com>, runs the engine
   inside your browser (Python compiled for the web, called Pyodide). The
   page loads every file from its own site, and its security settings
-  forbid it to send anything anywhere. After the first visit it keeps a
-  copy of itself, so it opens and works with no internet at all, and it
+  forbid it to send anything anywhere. Once you've checked a file, it
+  keeps a copy of itself, so it opens and works with no internet at all, and it
   can be installed like an app. That stored copy is the page's own
   files only, never your tree.
 - **The command-line tool** (`pipx install gedcom-privacy-guard`) adds

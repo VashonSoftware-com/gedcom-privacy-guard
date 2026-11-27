@@ -17,7 +17,7 @@ export function Features() {
         <strong>Your tree never leaves your computer.</strong> Nothing is uploaded.
       </li>
       <li>
-        <strong>Works with Wi-Fi off.</strong> Once this page has loaded, you can switch off the internet.
+        <strong>Works with Wi-Fi off.</strong> Once you've opened a file here, you can switch off the internet.
       </li>
       <li>
         <strong>Any family tree program.</strong> Legacy, RootsMagic, Family Tree Maker, Gramps, Ancestry and more.
@@ -210,8 +210,8 @@ export function Offline() {
     <section className="offline">
       <h2>Use it with no internet at all</h2>
       <p>
-        After your first visit, this page keeps a copy of itself on your computer, so it opens and works even in
-        airplane mode. That's an easy way to see for yourself that your tree goes nowhere.
+        Once you've checked a file here, this page keeps a copy of itself on your computer, so it opens and works
+        even in airplane mode. That's an easy way to see for yourself that your tree goes nowhere.
       </p>
       <p>
         To keep it handy like a program, <strong>install it</strong>: in Chrome or Edge, click the install button at

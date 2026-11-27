@@ -100,14 +100,41 @@ export default function App() {
   // The worker's handler is set once, so it reads the file name from here.
   const fileNameRef = useRef(fileName);
   fileNameRef.current = fileName;
+  // The engine (~3 MB of Pyodide) loads only when someone reaches for the
+  // file box or picks a file, so a visit that just reads the page stays
+  // light. A file picked before the engine is ready waits here.
+  const [started, setStarted] = useState(false);
+  const pending = useRef<File | null>(null);
+  const openFileRef = useRef<(f: File) => void>(() => {});
+  const loading = started && !ready;
 
+  useEffect(() => () => {
+    worker.current?.terminate();
+    worker.current = null;
+  }, []);
+
+  // Also start when a file is dragged over the page.
   useEffect(() => {
+    const onDrag = () => startEngine();
+    window.addEventListener("dragenter", onDrag, { once: true });
+    return () => window.removeEventListener("dragenter", onDrag);
+  }, []);
+
+  function startEngine() {
+    if (worker.current) return;
+    setStarted(true);
     const w = new Worker(new URL("./engine/worker.ts", import.meta.url), { type: "module" });
     w.onmessage = (e: MessageEvent<Response>) => {
       const msg = e.data;
       if (msg.type === "status") setStatus(msg.text);
-      else if (msg.type === "ready") setReady(true);
-      else if (msg.type === "progress") setProgress({ fraction: msg.fraction, stage: msg.stage });
+      else if (msg.type === "ready") {
+        setReady(true);
+        // Now the service worker can keep the engine for offline use.
+        navigator.serviceWorker?.controller?.postMessage("keep-engine");
+        const f = pending.current;
+        pending.current = null;
+        if (f) openFileRef.current(f);
+      } else if (msg.type === "progress") setProgress({ fraction: msg.fraction, stage: msg.stage });
       else if (msg.type === "error") {
         setError(msg.message);
         setBusy(false);
@@ -130,8 +157,16 @@ export default function App() {
       }
     };
     worker.current = w;
-    return () => w.terminate();
-  }, []);
+  }
+
+  // Scan now if the engine is ready; otherwise start it and scan when it is.
+  function chooseFile(file: File) {
+    if (ready) return openFile(file);
+    setError("");
+    setFileName(file.name);
+    pending.current = file;
+    startEngine();
+  }
 
   const send = (req: Request, transfer: Transferable[] = []) => {
     setError("");
@@ -150,6 +185,7 @@ export default function App() {
     const bytes = new Uint8Array(await file.arrayBuffer());
     send({ type: "scan", bytes }, [bytes.buffer]);
   }
+  openFileRef.current = openFile;
 
   function update(id: number, patch: Partial<Group>) {
     setDone(null);
@@ -252,7 +288,10 @@ export default function App() {
               </a>
             </p>
             <label
-              className={`drop ${!ready || busy ? "disabled" : ""} ${dragging ? "over" : ""}`}
+              className={`drop ${loading || busy ? "disabled" : ""} ${dragging ? "over" : ""}`}
+              onPointerEnter={startEngine}
+              onTouchStart={startEngine}
+              onFocus={startEngine}
               onDragOver={(e) => {
                 e.preventDefault();
                 setDragging(true);
@@ -271,11 +310,13 @@ export default function App() {
                     "That was a link or some text, not a file. Save your GEDCOM file to this computer first, " +
                       "then drag the file itself onto the box.",
                   );
-                else if (ready && !busy) openFile(f);
+                else if (!busy && !pending.current) chooseFile(f);
               }}
             >
-              {!ready ? (
-                <Progress label={`${status} (the first visit takes a little longer)`} />
+              {loading ? (
+                <Progress
+                  label={`${status}${pending.current ? ` Then reading ${fileName}.` : ""} (the first time takes a little longer)`}
+                />
               ) : busy ? (
                 <Progress
                   fraction={progress?.fraction ?? 0}
@@ -292,8 +333,8 @@ export default function App() {
               <input
                 type="file"
                 accept=".ged,.GED"
-                disabled={!ready || busy}
-                onChange={(e) => e.target.files?.[0] && openFile(e.target.files[0])}
+                disabled={busy || (loading && !!pending.current)}
+                onChange={(e) => e.target.files?.[0] && chooseFile(e.target.files[0])}
               />
             </label>
           </section>

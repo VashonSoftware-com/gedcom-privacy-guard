@@ -1,0 +1,6 @@
+# How to report a security problem with GEDCOM Privacy Guard (see SECURITY.md).
+Contact: https://github.com/VashonSoftware-com/gedcom-privacy-guard/security/advisories/new
+Expires: 2027-11-26T00:00:00Z
+Preferred-Languages: en
+Canonical: https://gedcomtools.com/.well-known/security.txt
+Policy: https://github.com/VashonSoftware-com/gedcom-privacy-guard/blob/main/SECURITY.md

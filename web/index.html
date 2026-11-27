@@ -42,7 +42,27 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Shown until the app starts (React replaces it), and to anything
+         that reads the page without running JavaScript. -->
+    <div id="root">
+      <div class="page">
+        <header>
+          <img class="logo" src="/logo.webp" alt="" width="140" height="140" />
+          <div>
+            <h1>GEDCOM Privacy Guard</h1>
+            <p class="tagline">
+              Check your family tree file for sensitive notes before you upload or share it.
+              <br />
+              <strong>Your file never leaves this computer.</strong> Everything happens right here in your browser.
+            </p>
+            <noscript><p>This page needs JavaScript turned on to check a file.</p></noscript>
+          </div>
+        </header>
+        <footer>
+          <p class="footer-credit"><a href="/privacy/">Privacy</a> <a href="/what-it-can-do/">What it can and can't do</a></p>
+        </footer>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
